@@ -19,7 +19,7 @@ namespace StefanShopWeb
     {
         public Startup(IConfiguration configuration)
         {
-            //Salle test commit
+            //salle test commit
             Configuration = configuration;
         }
 
