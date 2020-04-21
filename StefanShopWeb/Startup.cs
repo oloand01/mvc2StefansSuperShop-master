@@ -17,6 +17,8 @@ namespace StefanShopWeb
 {
     public class Startup
     {
+
+        //test
         public Startup(IConfiguration configuration)
         {
             //salle test commit
