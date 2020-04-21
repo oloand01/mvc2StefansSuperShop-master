@@ -14,6 +14,7 @@ namespace StefanShopWeb.Controllers
 {
     public class HomeController : Controller
     {
+		// Kommentar från Mikael
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext context;
 
