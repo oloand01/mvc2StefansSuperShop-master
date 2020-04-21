@@ -14,6 +14,8 @@ namespace StefanShopWeb.Controllers
     {
         private readonly ApplicationDbContext dbContext;
 
+        //test kommentar
+
         public AdminController(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
