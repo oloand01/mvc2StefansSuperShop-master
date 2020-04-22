@@ -11,10 +11,9 @@
             <li>
                 <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index" title="Admin"><i class="fa fa-user-o"></i> Admin</a>
             </li>
-
-            <li>
-                <form class="form-inline" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <button type="submit" class="nav-link btn btn-link text-dark">Logga ut</button>
+            <li class="nav-item">
+                <form class="form-inline" id="signOutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <a href='#' class="nav-link text-dark" onclick='document.forms["signOutForm"].submit(); return false;'><i class="fa fa-sign-out"></i>Logga ut</a>
                 </form>
             </li>
         }
