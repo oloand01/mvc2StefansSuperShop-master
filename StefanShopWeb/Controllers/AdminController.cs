@@ -14,6 +14,8 @@ using StefanShopWeb.Data;
 using StefanShopWeb.ViewModels;
 using System.Net;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace StefanShopWeb.Controllers
 {
@@ -21,10 +23,12 @@ namespace StefanShopWeb.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IHostingEnvironment _env;
 
-        public AdminController(ApplicationDbContext dbContext)
+        public AdminController(ApplicationDbContext dbContext, IHostingEnvironment env)
         {
             this.dbContext = dbContext;
+            _env = env;
         }
         List<MenuItem> SetupMenu(string activeAction)
         {
@@ -85,7 +89,7 @@ namespace StefanShopWeb.Controllers
         public IActionResult Message()
         {
             var model = new AdminMessageViewModel();
-            
+
             return View(model);
         }
 
@@ -98,18 +102,18 @@ namespace StefanShopWeb.Controllers
                 {
                     string emailBody = string.Empty;
                     var message = new MimeMessage();
-                    
+
                     var emailMessage = dbContext.Users;
                     message.To.AddRange(emailMessage.Select(x => new MailboxAddress(x.UserName, x.NormalizedEmail)));
                     message.From.Add(new MailboxAddress("info", "info@email.com"));
                     message.Subject = model.Subject;
                     emailBody = model.Message;
-                    
+
                     var body = new TextPart(TextFormat.Plain)
                     {
                         Text = $"{ emailBody } \n\t ---\n\t Message was sent by: {model.Name}."
                     };
-                    
+
                     var attachment = new MimePart("image", "png")
                     {
                         Content = new MimeContent(System.IO.File.OpenRead("./wwwroot/img/logo.png"), ContentEncoding.Default),
@@ -124,16 +128,17 @@ namespace StefanShopWeb.Controllers
                     message.Body = multipart;
 
 
-                    using (var emailClient = new MailKit.Net.Smtp.SmtpClient()) {
+                    using (var emailClient = new MailKit.Net.Smtp.SmtpClient())
+                    {
                         emailClient.Connect("127.0.0.1", 25, false);
                         //emailClient.Connect("smtp.mailtrap.io", 587, false);
                         //emailClient.Authenticate("a83b18c9f0570b", "ae426e3d31c5fb");
                         emailClient.Send(message);
                         emailClient.Disconnect(true);
-                    } ;
+                    };
 
                     ModelState.Clear();
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -145,5 +150,53 @@ namespace StefanShopWeb.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public IActionResult UploadFiles()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadFiles(List<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+
+            //var filePaths = new List<string>();
+            var filePath = Path.GetTempFileName();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+
+                {
+                    var uploads = Path.Combine(_env.WebRootPath, "ProductImages");
+                    var fullPath = Path.Combine(uploads, GetUniqueFileName(formFile.FileName));
+                    formFile.CopyTo(new FileStream(fullPath, FileMode.Create));
+                    // full path to file in temp location
+
+                    //var filePath = Path.Combine(_env.ContentRootPath, "ProductImages") + $@"\{newFileName}";  //we are using Temp file name just for the example. Add your own file path.
+                    //filePaths.Add(filePath);
+
+                    //using (var stream = new FileStream(filePath, FileMode.Create))
+                    //{
+                    //    await formFile.CopyToAsync(stream);
+                    //}
+                }
+
+            }
+
+            return Ok(new { count = files.Count, size, filePath });
+        }
+
+        private string GetUniqueFileName(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return Path.GetFileNameWithoutExtension(fileName)
+                      + "_"
+                      + Guid.NewGuid().ToString().Substring(0, 4)
+                      + Path.GetExtension(fileName);
+        }
+
     }
 }
