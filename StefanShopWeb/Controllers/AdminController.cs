@@ -100,7 +100,6 @@ namespace StefanShopWeb.Controllers
                     string emailBody = string.Empty;
                     var message = new MimeMessage();
                     
-                    
                     var emailMessage = dbContext.Users;
                     message.To.AddRange(emailMessage.Select(x => new MailboxAddress(x.UserName, x.NormalizedEmail)));
                     message.From.Add(new MailboxAddress("info", "info@email.com"));
@@ -113,21 +112,15 @@ namespace StefanShopWeb.Controllers
                     };
 
                     using (var emailClient = new MailKit.Net.Smtp.SmtpClient()) {
-                        emailClient.Connect("smtp.mailtrap.io", 587, false);
-                        emailClient.Authenticate("a83b18c9f0570b", "ae426e3d31c5fb");
+                        emailClient.Connect("127.0.0.1", 25, false);
+                        //emailClient.Connect("smtp.mailtrap.io", 587, false);
+                        //emailClient.Authenticate("a83b18c9f0570b", "ae426e3d31c5fb");
                         emailClient.Send(message);
                         emailClient.Disconnect(true);
                     } ;
 
                     ModelState.Clear();
-                    //using (SmtpClient emailClient = new SmtpClient())
-                    //{
-                    //    emailClient.Host = "smtp.mailtrap.io";
-                    //    emailClient.Port = 587;
-                    //    emailClient.Credentials = new NetworkCredential("a83b18c9f0570b", "ae426e3d31c5fb");
-                    //    emailClient.EnableSsl = true;
-                    //    emailClient.Send(message.From.ToString(), message.To.ToString(), message.Subject, message.Body.ToString());
-                    //}
+                    
                 }
                 catch (Exception ex)
                 {
