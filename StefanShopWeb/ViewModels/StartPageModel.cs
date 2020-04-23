@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace StefanShopWeb.ViewModels
 {
-    public class StartPageViewModel
+    public class StartPageModel
     {
         public class TrendingCategory
         {

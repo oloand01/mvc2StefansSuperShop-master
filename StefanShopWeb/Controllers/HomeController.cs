@@ -27,9 +27,9 @@ namespace StefanShopWeb.Controllers
 
         public IActionResult Index()
         {
-            var model = new StartPageViewModel();
+            var model = new StartPageModel();
             model.TrendingCategories = context.Categories.Take(3).Select( c=> 
-                        new StartPageViewModel.TrendingCategory { Id = c.CategoryId, Name = c.CategoryName }
+                        new StartPageModel.TrendingCategory { Id = c.CategoryId, Name = c.CategoryName }
                     ).ToList();
 
             return View(model);
