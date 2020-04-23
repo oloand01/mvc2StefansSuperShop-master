@@ -1,5 +1,15 @@
-(function($) {
+(function ($) {
 	"use strict"
+
+	//filteringCarousels
+	$(document).ready(function () {
+		$('.NewProductsFiltered').slickFilter('.Laptops');
+	});
+
+	$('.ProductsToFilter').on('click', function (e) {
+		$('.NewProductsFiltered').slickUnfilter();
+		$('.NewProductsFiltered').slickFilter('.' + e.currentTarget.innerHTML);
+	});
 
 	// Mobile Nav toggle
 	$('.menu-toggle > a').on('click', function (e) {
