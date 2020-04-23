@@ -1,5 +1,24 @@
-(function($) {
+(function ($) {
 	"use strict"
+
+	//filteringCarousels
+	$(document).ready(function () {
+		$('.NewProductsFiltered').slickFilter('.Laptops');
+		$('.top10SoldProductsFiltered').slickFilter('.Laptops');
+	});
+
+	$('.NewProductsFilterButton').on('click', function (e) {
+		FilterProducts(e, '.NewProductsFiltered')
+	});
+
+	$('.Top10ProductsFilteredButton').on('click', function (e) {
+		FilterProducts(e, '.top10SoldProductsFiltered')
+	});
+
+	function FilterProducts(e, container) {
+		$(container).slickUnfilter();
+		$(container).slickFilter('.' + e.currentTarget.innerHTML);
+	}
 
 	// Mobile Nav toggle
 	$('.menu-toggle > a').on('click', function (e) {
@@ -128,13 +147,13 @@
 	var priceInputMax = document.getElementById('price-max'),
 			priceInputMin = document.getElementById('price-min');
 
-	priceInputMax.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
-	});
+	//priceInputMax.addEventListener('change', function(){
+	//	updatePriceSlider($(this).parent() , this.value)
+	//});
 
-	priceInputMin.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
-	});
+	//priceInputMin.addEventListener('change', function(){
+	//	updatePriceSlider($(this).parent() , this.value)
+	//});
 
 	function updatePriceSlider(elem , value) {
 		if ( elem.hasClass('price-min') ) {
