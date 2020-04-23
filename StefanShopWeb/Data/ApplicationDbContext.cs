@@ -31,6 +31,6 @@ namespace StefanShopWeb.Data
         public virtual DbSet<Region> Region { get; set; }
         public virtual DbSet<Shippers> Shippers { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
-
+        public virtual DbSet<NewsletterSubscriptions> NewsletterSubscriptions { get; set; }
     }
 }
