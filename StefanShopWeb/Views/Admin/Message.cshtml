@@ -6,7 +6,6 @@
 
 <h2>Message</h2>
 
-
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,6 +36,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+<div>@ViewBag.Exception</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

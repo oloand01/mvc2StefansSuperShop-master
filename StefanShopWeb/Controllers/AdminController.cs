@@ -13,8 +13,7 @@ using MimeKit.Text;
 using StefanShopWeb.Data;
 using StefanShopWeb.ViewModels;
 using System.Net;
-
-
+using System.IO;
 
 namespace StefanShopWeb.Controllers
 {
@@ -104,12 +103,26 @@ namespace StefanShopWeb.Controllers
                     message.To.AddRange(emailMessage.Select(x => new MailboxAddress(x.UserName, x.NormalizedEmail)));
                     message.From.Add(new MailboxAddress("info", "info@email.com"));
                     message.Subject = model.Subject;
-                    emailBody = model.Message + "\n\t\n\t Message was sent by: " + model.Name;
-
-                    message.Body = new TextPart(TextFormat.Html)
+                    emailBody = model.Message;
+                    
+                    var body = new TextPart(TextFormat.Plain)
                     {
-                        Text = emailBody
+                        Text = $"{ emailBody } \n\t ---\n\t Message was sent by: {model.Name}."
                     };
+                    
+                    var attachment = new MimePart("image", "png")
+                    {
+                        Content = new MimeContent(System.IO.File.OpenRead("./wwwroot/img/logo.png"), ContentEncoding.Default),
+                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                        ContentTransferEncoding = ContentEncoding.Base64,
+                        FileName = Path.GetFileName("./wwwroot/img/logo.png")
+                    };
+
+                    var multipart = new Multipart("mixed");
+                    multipart.Add(body);
+                    multipart.Add(attachment);
+                    message.Body = multipart;
+
 
                     using (var emailClient = new MailKit.Net.Smtp.SmtpClient()) {
                         emailClient.Connect("127.0.0.1", 25, false);
