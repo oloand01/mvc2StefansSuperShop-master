@@ -1,4 +1,5 @@
-﻿
+﻿@model StefanShopWeb.ViewModels.StartPageModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +13,15 @@
     <link type="text/css" rel="stylesheet" href="~/css/slick-theme.css" />
     <link type="text/css" rel="stylesheet" href="~/css/nouislider.min.css" />
     <link rel="stylesheet" href="~/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="~/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="~/css/style.css" asp-append-version="true"/>
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body>
     <!-- HEADER -->
@@ -169,9 +174,20 @@
                 <div class="col-md-12">
                     <div class="newsletter">
                         <p>Sign Up for the <strong>NEWSLETTER</strong></p>
-                        <form asp-controller="Home" asp-action="NewsletterSubscription" asp-route-email="email">
-                            <input name="email" class="input" type="email" placeholder="Enter Your Email">
-                            <button type="submit" class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+                        <form asp-controller="Home" asp-action="NewsletterSubscription" method="post">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span class="newsletter-validation" asp-validation-for="Email"></span><br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input asp-for="@Model.Email" class="input" type="email" placeholder="Enter Your Email">
+                                        <button type="submit" class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+                                    </td>
+                                </tr>
+                            </table>
                         </form>
                         <ul class="newsletter-follow">
                             <li>
