@@ -22,7 +22,6 @@ namespace StefanShopWeb.Controllers
         {
             _logger = logger;
             this.context = context;
-
         }
 
         public IActionResult Index()
@@ -45,5 +44,19 @@ namespace StefanShopWeb.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        public IActionResult NewsletterSubscription(string email)
+        {
+            var newsletterSubscription = new NewsletterSubscriptions(email);
+
+            context.NewsletterSubscriptions.Add(newsletterSubscription);
+
+            context.SaveChanges();
+
+            return View("NewsletterSubscriptionConfirmation");
+        }
+
+
     }
 }

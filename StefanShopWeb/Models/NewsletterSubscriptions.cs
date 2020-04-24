@@ -8,6 +8,11 @@ namespace StefanShopWeb.Models
 {
     public class NewsletterSubscriptions
     {
+
+        public NewsletterSubscriptions(string email)
+        {
+            Email = email;
+        }
         public int Id { get; set; }
         public string Email { get; set; }
     }
