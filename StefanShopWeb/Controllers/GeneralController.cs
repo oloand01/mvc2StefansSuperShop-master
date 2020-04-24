@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,18 +31,21 @@ namespace StefanShopWeb.Controllers
             return File(bytes, "image/png");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult SetCategoryImage(int id)
         {
 
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult UploadFiles()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult UploadFiles(List<IFormFile> files)
         {
@@ -74,6 +78,7 @@ namespace StefanShopWeb.Controllers
             return Ok(new { count = files.Count, size, filePath });
         }
 
+        [Authorize(Roles = "Admin")]
         private string GetUniqueFileName(string fileName)
         {
             fileName = Path.GetFileName(fileName);
