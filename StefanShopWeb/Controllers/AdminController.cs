@@ -23,12 +23,10 @@ namespace StefanShopWeb.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IHostingEnvironment _env;
 
-        public AdminController(ApplicationDbContext dbContext, IHostingEnvironment env)
+        public AdminController(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
-            _env = env;
         }
         List<MenuItem> SetupMenu(string activeAction)
         {
@@ -150,53 +148,5 @@ namespace StefanShopWeb.Controllers
             }
             return View();
         }
-
-        [HttpGet]
-        public IActionResult UploadFiles()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult UploadFiles(List<IFormFile> files)
-        {
-            long size = files.Sum(f => f.Length);
-
-            //var filePaths = new List<string>();
-            var filePath = Path.GetTempFileName();
-
-            foreach (var formFile in files)
-            {
-                if (formFile.Length > 0)
-
-                {
-                    var uploads = Path.Combine(_env.WebRootPath, "ProductImages");
-                    var fullPath = Path.Combine(uploads, GetUniqueFileName(formFile.FileName));
-                    formFile.CopyTo(new FileStream(fullPath, FileMode.Create));
-                    // full path to file in temp location
-
-                    //var filePath = Path.Combine(_env.ContentRootPath, "ProductImages") + $@"\{newFileName}";  //we are using Temp file name just for the example. Add your own file path.
-                    //filePaths.Add(filePath);
-
-                    //using (var stream = new FileStream(filePath, FileMode.Create))
-                    //{
-                    //    await formFile.CopyToAsync(stream);
-                    //}
-                }
-
-            }
-
-            return Ok(new { count = files.Count, size, filePath });
-        }
-
-        private string GetUniqueFileName(string fileName)
-        {
-            fileName = Path.GetFileName(fileName);
-            return Path.GetFileNameWithoutExtension(fileName)
-                      + "_"
-                      + Guid.NewGuid().ToString().Substring(0, 4)
-                      + Path.GetExtension(fileName);
-        }
-
     }
 }
