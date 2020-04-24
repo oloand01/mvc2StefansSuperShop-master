@@ -1,0 +1,28 @@
+﻿<div class="text-center">
+    <form method="post" enctype="multipart/form-data" asp-controller="General" asp-action="UploadFiles">
+        <div class="form-group">
+            <div class="col-md-10">
+                <p><strong>Upload a file using this form:</strong></p>
+                <br />
+                <input class="center-block" style="position:relative;left:60px;" type="file" name="files" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <br />
+                <input type="submit" value="Upload" />
+            </div>
+
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success" style="margin-top:20px;">
+                    @ViewBag.Message
+                </div>
+            }
+
+        </div>
+    </form>
+</div>
+
+    

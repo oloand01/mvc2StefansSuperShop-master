@@ -75,13 +75,22 @@ namespace StefanShopWeb.Controllers
 
             }
 
-            return Ok(new { count = files.Count, size, filePath });
+            ViewBag.Message = "File successfully uploaded.";
+
+            //return Ok(new { count = files.Count, size, filePath });
+            return View();
         }
 
         [Authorize(Roles = "Admin")]
         private string GetUniqueFileName(string fileName)
         {
             fileName = Path.GetFileName(fileName);
+
+            if (System.IO.File.Exists(fileName))
+            {
+                System.IO.File.Delete(fileName);
+            }
+
             return Path.GetFileNameWithoutExtension(fileName)
                       + "_"
                       + Guid.NewGuid().ToString().Substring(0, 4)
