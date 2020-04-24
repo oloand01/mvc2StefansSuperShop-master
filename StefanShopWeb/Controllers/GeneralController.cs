@@ -24,5 +24,11 @@ namespace StefanShopWeb.Controllers
             Array.Copy(imageData, offset, bytes, 0, bytes.Length);
             return File(bytes, "image/png");
         }
+
+        public IActionResult SetCategoryImage(int id)
+        {
+
+            return View();
+        }
     }
 }
