@@ -158,7 +158,7 @@ namespace StefanShopWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFiles(List<IFormFile> files)
+        public IActionResult UploadFiles(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
 
