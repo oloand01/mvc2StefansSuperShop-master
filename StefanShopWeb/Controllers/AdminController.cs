@@ -97,6 +97,8 @@ namespace StefanShopWeb.Controllers
             {
                 //Issa kolla modelstate här, Picture propen i AdminEditCategoryViewModel är en string, ändra den om det behövs
 
+
+
                 //Spara till databas!
             }
             return View("EditCategory", model);
