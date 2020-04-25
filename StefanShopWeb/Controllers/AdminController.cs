@@ -83,7 +83,24 @@ namespace StefanShopWeb.Controllers
             return View(model);
         }
 
+        public IActionResult EditCategory(int id)
+        {
+            var model = dbContext.Categories.Where(c => c.CategoryId == id).Select(c => new AdminEditCategoryViewModel{ Id = c.CategoryId, CategoryName = c.CategoryName, Description = c.Description }).FirstOrDefault();
 
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SaveCategory(AdminEditCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Issa kolla modelstate här, Picture propen i AdminEditCategoryViewModel är en string, ändra den om det behövs
+
+                //Spara till databas!
+            }
+            return View("EditCategory", model);
+        }
         public IActionResult Message()
         {
             var model = new AdminMessageViewModel();
