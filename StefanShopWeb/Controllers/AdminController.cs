@@ -1,21 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StefanShopWeb.Data;
+using StefanShopWeb.Services;
+using StefanShopWeb.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
-using MailKit.Net.Smtp;
-using MimeKit;
-using MimeKit.Text;
-using StefanShopWeb.Data;
-using StefanShopWeb.ViewModels;
-using System.Net;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 namespace StefanShopWeb.Controllers
 {
@@ -23,17 +14,19 @@ namespace StefanShopWeb.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext dbContext;
+        private  INewsletterServices _newsletterServices;
 
-        public AdminController(ApplicationDbContext dbContext)
+        public AdminController(ApplicationDbContext dbContext, INewsletterServices newsletterServices)
         {
             this.dbContext = dbContext;
+            _newsletterServices = newsletterServices;
         }
         List<MenuItem> SetupMenu(string activeAction)
         {
             var list = new List<MenuItem>();
             list.Add(new MenuItem { Text = "Products", Action = "Products", Controller = "Admin", IsActive = activeAction == "Products" });
             list.Add(new MenuItem { Text = "Categories", Action = "Categories", Controller = "Admin", IsActive = activeAction == "Categories" });
-            list.Add(new MenuItem { Text = "Message", Action = "Message", Controller = "Admin", IsActive = activeAction == "Message" });
+            list.Add(new MenuItem { Text = "Newsletters", Action = "NewsletterList", Controller = "Admin", IsActive = activeAction == "NewsletterList" });
             return list;
         }
         public IActionResult Index()
@@ -84,10 +77,73 @@ namespace StefanShopWeb.Controllers
         }
 
 
-        public IActionResult Message()
-        {
-            var model = new AdminMessageViewModel();
 
+        public IActionResult NewsletterList()
+        {
+            var list = _newsletterServices.GetNewsLetterList();
+            
+            return View(list);
+        }
+
+        public IActionResult CreateNews()
+        {
+            var model = new AdminNewsletterViewModel();
+            return View("CreateNews", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateNews(AdminNewsletterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _newsletterServices.CreateNews(model);
+                return RedirectToAction("NewsletterList");
+            }
+            return View("CreateNews", model);
+        }
+
+        public IActionResult EditNews(int id)
+        {
+            var model = _newsletterServices.GetNewsText(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditNews(AdminNewsletterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _newsletterServices.EditNews(model);
+                return RedirectToAction("NewsletterList");
+            }
+            return View(model);
+        }
+        public IActionResult DeleteNews(int id)
+        {
+            try
+            {
+                _newsletterServices.DeleteNewsletter(id);
+             
+                return RedirectToAction("NewsletterList");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Exception = $" Oops! Delete failed. Error:  {ex.Message}";
+
+            }
+            
+            return View();
+        }
+        public IActionResult Message(int id)
+        {
+
+            var model = new AdminMessageViewModel();
+            var letter= _newsletterServices.GetNewsText(id);
+            model.Message = letter.Text;
+         
             return View(model);
         }
 
@@ -98,45 +154,9 @@ namespace StefanShopWeb.Controllers
             {
                 try
                 {
-                    string emailBody = string.Empty;
-                    var message = new MimeMessage();
-
-                    var emailMessage = dbContext.Users;
-                    message.To.AddRange(emailMessage.Select(x => new MailboxAddress(x.UserName, x.NormalizedEmail)));
-                    message.From.Add(new MailboxAddress("info", "info@email.com"));
-                    message.Subject = model.Subject;
-                    emailBody = model.Message;
-
-                    var body = new TextPart(TextFormat.Plain)
-                    {
-                        Text = $"{ emailBody } \n\t ---\n\t Message was sent by: {model.Name}."
-                    };
-
-                    var attachment = new MimePart("image", "png")
-                    {
-                        Content = new MimeContent(System.IO.File.OpenRead("./wwwroot/img/logo.png"), ContentEncoding.Default),
-                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                        ContentTransferEncoding = ContentEncoding.Base64,
-                        FileName = Path.GetFileName("./wwwroot/img/logo.png")
-                    };
-
-                    var multipart = new Multipart("mixed");
-                    multipart.Add(body);
-                    multipart.Add(attachment);
-                    message.Body = multipart;
-
-
-                    using (var emailClient = new MailKit.Net.Smtp.SmtpClient())
-                    {
-                        emailClient.Connect("127.0.0.1", 25, false);
-                        //emailClient.Connect("smtp.mailtrap.io", 587, false);
-                        //emailClient.Authenticate("a83b18c9f0570b", "ae426e3d31c5fb");
-                        emailClient.Send(message);
-                        emailClient.Disconnect(true);
-                    };
-
+                    _newsletterServices.SendNews(model);
                     ModelState.Clear();
-
+                    return RedirectToAction("NewsletterList");
                 }
                 catch (Exception ex)
                 {

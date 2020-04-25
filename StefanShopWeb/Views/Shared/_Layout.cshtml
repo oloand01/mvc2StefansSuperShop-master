@@ -1,4 +1,4 @@
-﻿@model StefanShopWeb.ViewModels.StartPageModel
+﻿@*@model StefanShopWeb.ViewModels.StartPageModel*@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -176,7 +176,7 @@
                         <p>Sign Up for the <strong>NEWSLETTER</strong></p>
                         <form asp-controller="Home" asp-action="NewsletterSubscription" method="post">
                             <table>
-                                <tr>
+                                @*<tr>
                                     <td>
                                         <span class="newsletter-validation" asp-validation-for="Email"></span><br />
                                     </td>
@@ -186,7 +186,7 @@
                                         <input asp-for="@Model.Email" class="input" type="email" placeholder="Enter Your Email">
                                         <button type="submit" class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
                                     </td>
-                                </tr>
+                                </tr>*@
                             </table>
                         </form>
                         <ul class="newsletter-follow">

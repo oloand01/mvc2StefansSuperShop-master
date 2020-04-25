@@ -5,6 +5,15 @@
     <UserSecretsId>aspnet-StefanShopWeb-E3CED2D5-A95E-4B2D-A5F0-69A4F8C0D341</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20200424171403_AddNewslettersTable.cs" />
+    <Compile Remove="Data\Migrations\20200424171403_AddNewslettersTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200424171621_AddNewslettersTable.cs" />
+    <Compile Remove="Data\Migrations\20200424171621_AddNewslettersTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200424212046_AddMail.cs" />
+    <Compile Remove="Data\Migrations\20200424212046_AddMail.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.6.0" />

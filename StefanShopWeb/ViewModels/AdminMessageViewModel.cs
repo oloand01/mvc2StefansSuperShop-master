@@ -9,6 +9,7 @@ namespace StefanShopWeb.ViewModels
 {
     public class AdminMessageViewModel
     {
+        public int Id { get; set; }
         [Required]
         [StringLength(60)]
         public string Name { get; set; }
@@ -17,6 +18,7 @@ namespace StefanShopWeb.ViewModels
         [Required]
         public string Message { get; set; }
 
-       
+        public AdminNewsletterViewModel NewsletterViewModel { get; set; }
     }
 }
+

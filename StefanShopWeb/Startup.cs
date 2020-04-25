@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
+using StefanShopWeb.Services;
 
 namespace StefanShopWeb
 {
@@ -43,7 +44,7 @@ namespace StefanShopWeb
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             }) ;
-
+            services.AddTransient<INewsletterServices, NewsletterServices>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

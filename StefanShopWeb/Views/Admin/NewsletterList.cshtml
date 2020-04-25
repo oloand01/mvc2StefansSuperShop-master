@@ -1,0 +1,59 @@
+﻿@model IEnumerable<StefanShopWeb.ViewModels.AdminNewsletterViewModel>
+
+@{
+    ViewData["Title"] = "NewsletterList";
+}
+
+<h2>News</h2>
+
+<p>
+    <a asp-action="CreateNews">Create New</a>
+</p>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th> Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @{var i = item.Text;
+                        var j = i.Length > 25 ? i.Substring(0, 25) + "..." : i;}
+                    @Html.DisplayFor(modelItem => j)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td>
+                    <a asp-action="EditNews" asp-route-id="@item.Id">Edit</a> <br />
+                    <a asp-action="DeleteNews" asp-route-id="@item.Id">Delete</a><br />
+                    <a asp-action="Message" asp-route-id="@item.Id" class="btn btn-danger">Send</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<div>
+    <a asp-action="Index">Back to Start</a>
+</div>
