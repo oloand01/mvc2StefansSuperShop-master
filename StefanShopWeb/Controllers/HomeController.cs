@@ -45,10 +45,12 @@ namespace StefanShopWeb.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-        public IActionResult NewsletterSubscription(string email)
+        [HttpPost]
+        public IActionResult NewsletterSubscription(StartPageModel model)
         {
-            var newsletterSubscription = new NewsletterSubscriptions(email);
+            var newsletterSubscription = new NewsletterSubscriptions();
+
+            newsletterSubscription.Email = model.Email;
 
             context.NewsletterSubscriptions.Add(newsletterSubscription);
 
@@ -56,7 +58,5 @@ namespace StefanShopWeb.Controllers
 
             return View("NewsletterSubscriptionConfirmation");
         }
-
-
     }
 }
