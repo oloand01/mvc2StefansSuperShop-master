@@ -1,0 +1,29 @@
+﻿@model StefanShopWeb.ViewModels.AdminEditCategoryViewModel
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="SaveCategory" asp-controller="Admin" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="number" asp-for="Id" hidden />
+            <div class="form-group">
+                <label asp-for="CategoryName"></label>
+                <input type="text" asp-for="CategoryName" name="CategoryName" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input type="text" asp-for="Description" name="Description" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    Bilduppladdnign här
+                </div>*@
+            <div class="form-group">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
