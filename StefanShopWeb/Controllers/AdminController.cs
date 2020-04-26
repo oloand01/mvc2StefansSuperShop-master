@@ -96,10 +96,6 @@ namespace StefanShopWeb.Controllers
             }
             return View("EditCategory", model);
         }
-        public IActionResult Message()
-        {
-            var model = new AdminMessageViewModel();
-
 
         public IActionResult NewsletterList()
         {
