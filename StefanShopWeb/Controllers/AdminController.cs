@@ -87,7 +87,10 @@ namespace StefanShopWeb.Controllers
 
         public IActionResult CreateNews()
         {
+            
             var model = new AdminNewsletterViewModel();
+            model.Date = new DateTime(DateTime.UtcNow.Ticks / 600000000 * 600000000);
+            model.Status = Status.Uncompleted.ToString();
             return View("CreateNews", model);
         }
 
@@ -106,7 +109,8 @@ namespace StefanShopWeb.Controllers
         public IActionResult EditNews(int id)
         {
             var model = _newsletterServices.GetNewsText(id);
-
+            model.Date = new DateTime(DateTime.UtcNow.Ticks / 600000000 * 600000000);
+            model.Status = Status.Uncompleted.ToString();
             return View(model);
         }
 

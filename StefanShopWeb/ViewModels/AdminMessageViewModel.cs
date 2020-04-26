@@ -14,11 +14,11 @@ namespace StefanShopWeb.ViewModels
         [StringLength(60)]
         public string Name { get; set; }
         [Required]
+        [StringLength(100)]
         public string Subject { get; set; }
         [Required]
         public string Message { get; set; }
 
-        public AdminNewsletterViewModel NewsletterViewModel { get; set; }
     }
 }
 

@@ -6,22 +6,22 @@
 
 <h2>News</h2>
 
+<br />
 <p>
     <a asp-action="CreateNews">Create New</a>
 </p>
 <br />
-<br />
-<table class="table">
-    <thead>
+<table class="table table-hover">
+    <thead class="thead-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
+            <th  scope="col">
+                Date
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Text)
+            <th  scope="col">
+                Textdisabled
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
+            <th  scope="col">
+                Status
             </th>
 
             <th> Action</th>
@@ -31,22 +31,22 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                <td  scope="row">
+                    @item.Date
                 </td>
                 <td>
-                    @{var i = item.Text;
-                        var j = i.Length > 25 ? i.Substring(0, 25) + "..." : i;}
-                    @Html.DisplayFor(modelItem => j)
+                    @{var longText = item.Text;
+                        var text = longText.Length > 30 ? longText.Substring(0, 30) + "..." : longText;}
+                    @text
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status)
+                    @item.Status
                 </td>
 
                 <td>
+                    <a asp-action="Message" asp-route-id="@item.Id" class="btn btn-danger @(item.Status=="Done" ? "disabled" : "")">Send</a>
                     <a asp-action="EditNews" asp-route-id="@item.Id">Edit</a> <br />
                     <a asp-action="DeleteNews" asp-route-id="@item.Id">Delete</a><br />
-                    <a asp-action="Message" asp-route-id="@item.Id" class="btn btn-danger">Send</a>
                 </td>
             </tr>
         }
@@ -55,5 +55,7 @@
 <br />
 <br />
 <div>
+    <a asp-action="NewsletterList">Back to List</a>
+
     <a asp-action="Index">Back to Start</a>
 </div>

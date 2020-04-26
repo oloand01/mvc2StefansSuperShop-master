@@ -10,9 +10,9 @@ using System.Linq;
 
 namespace StefanShopWeb.Services
 {
-    enum Status
+    public enum Status
     {
-        Send,
+        Done,
         Uncompleted
     }
     public class NewsletterServices : INewsletterServices
@@ -28,9 +28,8 @@ namespace StefanShopWeb.Services
         {
             var newsletter = new Newsletter()
             {
-                Date = model.Date,
+                Date = DateTime.Now,
                 Status = model.Status,
-                //Status = Status.Uncompleted.ToString(),
                 Text = model.Text
             };
             _context.Newsletters.Add(newsletter);
@@ -59,12 +58,11 @@ namespace StefanShopWeb.Services
         }
         public List<AdminNewsletterViewModel> GetNewsLetterList()
         {
-            //var list = _context.Newsletters.ToList();
             var list = _context.Newsletters.Select(c => new AdminNewsletterViewModel
                 {
                     Id= c.Id,
                     Text = c.Text,
-                    Date = c.Date,
+                    Date = new DateTime(c.Date.Ticks / 600000000 * 600000000),
                     Status= c.Status
                 }).ToList();
 
@@ -115,8 +113,7 @@ namespace StefanShopWeb.Services
 
             ////
             newsletter.Date = DateTime.Now;
-            newsletter.Status = Status.Send.ToString();
-           // newsletter.Text = model.Text;
+            newsletter.Status = Status.Done.ToString();
 
             _context.SaveChanges();
         }

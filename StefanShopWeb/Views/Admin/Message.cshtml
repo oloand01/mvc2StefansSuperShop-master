@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" placeholder="ex.: robot " class="form-control" />
                 <span asp-validation-for="Name" class="text-muted"></span>
             </div>
             <div class="form-group">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Message">Message:</label>
-                <textarea rows="8" cols="20" asp-for="Message" class="form-control disabled"></textarea>
+                <textarea rows="8" cols="20" asp-for="Message" class="form-control"></textarea>
                 <span asp-validation-for="Message" class="text-muted"></span>
             </div>
             <div class="form-group">

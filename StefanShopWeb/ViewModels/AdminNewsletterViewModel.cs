@@ -11,7 +11,6 @@ namespace StefanShopWeb.ViewModels
     {
         public int Id { get; set; }
         public DateTime Date { get; set; } = new DateTime();
-        public string Title { get; set; }
         [Required]
         public string Text { get; set; }
         public string Status { get; set; }
