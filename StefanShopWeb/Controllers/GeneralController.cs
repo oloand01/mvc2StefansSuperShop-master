@@ -23,12 +23,11 @@ namespace StefanShopWeb.Controllers
         }
         public IActionResult GetCategoryImage(int id)
         {
-            var offset = 78;
-            var imageData = dbContext.Categories.Find(id).Picture;
-            var bytes = new byte[imageData.Length - offset];
-
-            Array.Copy(imageData, offset, bytes, 0, bytes.Length);
-            return File(bytes, "image/png");
+            var imageData = dbContext.Categories.Find(id).PictureName;
+            var uploads = Path.Combine(_env.WebRootPath, "ProductImages", imageData);
+            var imageFileStream = System.IO.File.OpenRead(uploads);
+           
+            return File(imageFileStream, "image/png");
         }
 
         [Authorize(Roles = "Admin")]

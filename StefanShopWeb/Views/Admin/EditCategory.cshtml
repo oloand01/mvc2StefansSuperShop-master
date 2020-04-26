@@ -1,29 +1,61 @@
 ﻿@model StefanShopWeb.ViewModels.AdminEditCategoryViewModel
 @{
-    Layout = null;
+    Layout = "_Layout";
+    ViewData["Title"] = "EditCategory";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="SaveCategory" asp-controller="Admin" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <input type="number" asp-for="Id" hidden />
-            <div class="form-group">
-                <label asp-for="CategoryName"></label>
-                <input type="text" asp-for="CategoryName" name="CategoryName" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+
+<div class="col-md-6 offset-md-4 mt-5">
+
+    <h2>Edit Category</h2>
+
+    <form asp-action="SaveCategory" asp-controller="Admin" enctype="multipart/form-data" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input type="number" asp-for="Id" hidden />
+        <div class="form-group">
+            <label asp-for="CategoryName"></label>
+            <input class="form-control" type="text" asp-for="CategoryName" name="CategoryName" />
+            <span asp-validation-for="CategoryName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <input class="form-control" type="text" asp-for="Description" name="Description" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <hr />
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <label class="custom-file-label" asp-for="Picture"></label>
+                <br />
+                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description"></label>
-                <input type="text" asp-for="Description" name="Description" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" asp-for="Picture" name="files"
+                       aria-describedby="inputGroupFileAddon01" />
+
+                <span asp-validation-for="Picture" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                    Bilduppladdnign här
-                </div>*@
-            <div class="form-group">
-                <button type="submit">Save</button>
-            </div>
-        </form>
-    </div>
+        </div>
+        <hr />
+        <button class="btn btn-primary" asp-action="Categories">Back</button>
+        <button class="btn btn-primary" type="submit" value="Upload">Save</button>
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success" id="msg" style="margin-top:20px;">
+                    @ViewBag.Message
+                </div>
+        }
+    </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#msg").fadeOut();
+        }, 3000);
+    });
+</script>
