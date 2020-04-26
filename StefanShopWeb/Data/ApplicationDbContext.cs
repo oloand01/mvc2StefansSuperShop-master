@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StefanShopWeb.Models;
+using StefanShopWeb.ViewModels;
 
 namespace StefanShopWeb.Data
 {
@@ -32,5 +33,7 @@ namespace StefanShopWeb.Data
         public virtual DbSet<Shippers> Shippers { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<NewsletterSubscriptions> NewsletterSubscriptions { get; set; }
+        public virtual DbSet<Newsletter> Newsletters { get; set; }
+        public DbSet<StefanShopWeb.ViewModels.AdminNewsletterViewModel> AdminNewsletterViewModel { get; set; }
     }
 }

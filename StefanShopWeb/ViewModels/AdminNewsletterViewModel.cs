@@ -7,18 +7,14 @@ using System.Threading.Tasks;
 
 namespace StefanShopWeb.ViewModels
 {
-    public class AdminMessageViewModel
+    public class AdminNewsletterViewModel
     {
         public int Id { get; set; }
+        public DateTime Date { get; set; } = new DateTime();
         [Required]
-        [StringLength(60)]
-        public string Name { get; set; }
-        [Required]
-        [StringLength(100)]
-        public string Subject { get; set; }
-        [Required]
-        public string Message { get; set; }
+        public string Text { get; set; }
+        public string Status { get; set; }
 
+       
     }
 }
-

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<StefanShopWeb.ViewModels.AdminNewsletterViewModel>
+
+@{
+    ViewData["Title"] = "NewsletterList";
+}
+
+<h2>News</h2>
+
+<br />
+<p>
+    <a asp-action="CreateNews">Create New</a>
+</p>
+<br />
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th  scope="col">
+                Date
+            </th>
+            <th  scope="col">
+                Textdisabled
+            </th>
+            <th  scope="col">
+                Status
+            </th>
+
+            <th> Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td  scope="row">
+                    @item.Date
+                </td>
+                <td>
+                    @{var longText = item.Text;
+                        var text = longText.Length > 30 ? longText.Substring(0, 30) + "..." : longText;}
+                    @text
+                </td>
+                <td>
+                    @item.Status
+                </td>
+
+                <td>
+                    <a asp-action="Message" asp-route-id="@item.Id" class="btn btn-danger @(item.Status=="Done" ? "disabled" : "")">Send</a>
+                    <a asp-action="EditNews" asp-route-id="@item.Id">Edit</a> <br />
+                    <a asp-action="DeleteNews" asp-route-id="@item.Id">Delete</a><br />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<div>
+    <a asp-action="NewsletterList">Back to List</a>
+
+    <a asp-action="Index">Back to Start</a>
+</div>
