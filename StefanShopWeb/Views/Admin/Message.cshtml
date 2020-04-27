@@ -24,7 +24,7 @@
                 <span asp-validation-for="Subject" class="text-muted"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Message">Message:</label>
+                <label asp-for="Message"></label>
                 <textarea rows="8" cols="20" asp-for="Message" class="form-control"></textarea>
                 <span asp-validation-for="Message" class="text-muted"></span>
             </div>
@@ -35,9 +35,13 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="section-nav">
+    <ul class="section-tab-nav tab-nav">
+        <li><a asp-action="Index">Back to Start</a></li>
+        <li><a asp-action="NewsletterList">Back to List</a></li>
+    </ul>
 </div>
+
 <div>@ViewBag.Exception</div>
 
 @section Scripts {

@@ -97,6 +97,7 @@ namespace StefanShopWeb.Controllers
             return View("EditCategory", model);
         }
 
+        //NEWSLETTERS-------
         public IActionResult NewsletterList()
         {
             var list = _newsletterServices.GetNewsLetterList();
@@ -106,7 +107,6 @@ namespace StefanShopWeb.Controllers
 
         public IActionResult CreateNews()
         {
-            
             var model = new AdminNewsletterViewModel();
             model.Date = new DateTime(DateTime.UtcNow.Ticks / 600000000 * 600000000);
             model.Status = Status.Uncompleted.ToString();
@@ -155,7 +155,6 @@ namespace StefanShopWeb.Controllers
             catch (Exception ex)
             {
                 ViewBag.Exception = $" Oops! Delete failed. Error:  {ex.Message}";
-
             }
             
             return View();
