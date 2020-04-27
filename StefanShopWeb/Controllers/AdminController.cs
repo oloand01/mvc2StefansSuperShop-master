@@ -253,6 +253,7 @@ namespace StefanShopWeb.Controllers
                     _newsletterServices.SendNews(model);
                     ModelState.Clear();
                     return RedirectToAction("NewsletterList");
+                    
                 }
                 catch (Exception ex)
                 {
