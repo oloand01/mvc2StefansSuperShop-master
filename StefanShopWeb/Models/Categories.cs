@@ -22,6 +22,8 @@ namespace StefanShopWeb.Models
         public string Description { get; set; }
         [Column(TypeName = "image")]
         public byte[] Picture { get; set; }
+        [Column(TypeName = "nvarchar(50)")]
+        public string PictureName { get; set; }
 
         [InverseProperty("Category")]
         public virtual ICollection<Products> Products { get; set; }
