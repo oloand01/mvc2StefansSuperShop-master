@@ -1934,9 +1934,7 @@ textarea.input {
   position: relative;
   max-width: 520px;
   margin: 30px auto;
-  /*margin-left: 30px auto;*/
-  margin-right: 230px;
-  
+  margin-left: 30px auto;
 }
 
 .newsletter form:after {
