@@ -29,7 +29,7 @@ namespace StefanShopWeb.Services
             var newsletter = new Newsletter()
             {
                 Date = DateTime.Now,
-                Status = model.Status,
+                Status = Status.Uncompleted.ToString(),
                 Text = model.Text
             };
             _context.Newsletters.Add(newsletter);
@@ -38,7 +38,6 @@ namespace StefanShopWeb.Services
         public void EditNews(AdminNewsletterViewModel model)
         {
             var newsletter = _context.Newsletters.SingleOrDefault(n => n.Id == model.Id);
-
             newsletter.Date = DateTime.Now;
             newsletter.Status = Status.Uncompleted.ToString();
             newsletter.Text = model.Text;
@@ -73,7 +72,7 @@ namespace StefanShopWeb.Services
         public void SendNews(AdminMessageViewModel model)
         {
             var newsletter = _context.Newsletters.SingleOrDefault(n => n.Id == model.Id);
-            //
+            
             string emailBody = string.Empty;
             var message = new MimeMessage();
 
@@ -87,7 +86,7 @@ namespace StefanShopWeb.Services
             {
                 Text = $"{ emailBody } \n\t ---\n\t Message was sent by: {model.Name}."
             };
-
+            
             var attachment = new MimePart("image", "png")
             {
                 Content = new MimeContent(System.IO.File.OpenRead("./wwwroot/img/logo.png"), ContentEncoding.Default),
@@ -104,14 +103,18 @@ namespace StefanShopWeb.Services
 
             using (var emailClient = new MailKit.Net.Smtp.SmtpClient())
             {
+                //VARIANT 1: för att få email måste man installera Papercut SMTP (https://github.com/ChangemakerStudios/Papercut-SMTP)
                 emailClient.Connect("127.0.0.1", 25, false);
+
+                ////VARIANT 2: för att få email behöver man gå på https://mailtrap.io/share/664808/e0626a741efbc9a521dcc29b06061ee7 och loga in med sin google- eller gitHubkonto
                 //emailClient.Connect("smtp.mailtrap.io", 587, false);
                 //emailClient.Authenticate("a83b18c9f0570b", "ae426e3d31c5fb");
+
                 emailClient.Send(message);
                 emailClient.Disconnect(true);
             };
 
-            ////
+            
             newsletter.Date = DateTime.Now;
             newsletter.Status = Status.Done.ToString();
 

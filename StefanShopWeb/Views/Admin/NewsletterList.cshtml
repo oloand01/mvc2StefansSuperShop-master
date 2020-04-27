@@ -7,55 +7,48 @@
 <h2>News</h2>
 
 <br />
-<p>
-    <a asp-action="CreateNews">Create New</a>
-</p>
-<br />
-<table class="table table-hover">
-    <thead class="thead-dark">
-        <tr>
-            <th  scope="col">
-                Date
-            </th>
-            <th  scope="col">
-                Textdisabled
-            </th>
-            <th  scope="col">
-                Status
-            </th>
-
-            <th> Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td  scope="row">
-                    @item.Date
-                </td>
-                <td>
-                    @{var longText = item.Text;
-                        var text = longText.Length > 30 ? longText.Substring(0, 30) + "..." : longText;}
-                    @text
-                </td>
-                <td>
-                    @item.Status
-                </td>
-
-                <td>
-                    <a asp-action="Message" asp-route-id="@item.Id" class="btn btn-danger @(item.Status=="Done" ? "disabled" : "")">Send</a>
-                    <a asp-action="EditNews" asp-route-id="@item.Id">Edit</a> <br />
-                    <a asp-action="DeleteNews" asp-route-id="@item.Id">Delete</a><br />
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<br />
+<div class="section-nav">
+    <ul class="section-tab-nav tab-nav">
+        <li><a asp-action="CreateNews"><strong>Create New</strong></a></li>
+    </ul>
+</div>
 <br />
 <div>
-    <a asp-action="NewsletterList">Back to List</a>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>
+                <hr />
+                <span class="badge badge-pill ">@item.Date</span>
+                <span class="badge badge-light badge-pill ">Status: @item.Status</span><br />
+                <p>
+                    @{var longText = item.Text;
+                        var text = longText.Length > 100 ? longText.Substring(0, 100) + "..." : longText;}
+                    @text
+                </p>
+                <div class="section-nav">
+                    <ul class="section-tab-nav tab-nav">
+                        <li>
+                            <a asp-action="EditNews" asp-route-id="@item.Id">Edit</a>
+                        </li>
+                        <li>
+                            <a asp-action="DeleteNews" asp-route-id="@item.Id">Delete</a>
+                        </li>
+                        <li>
+                            <a asp-action="Message" asp-route-id="@item.Id" class="btn btn-light @(item.Status=="Done" ? "disabled" : "")">Send</a>
+                        </li>
 
-    <a asp-action="Index">Back to Start</a>
+                    </ul>
+                </div>
+            </li>
+        }
+    </ul>
 </div>
+<br />
+<div class="section-nav">
+    <ul class="section-tab-nav tab-nav">
+        <li><a asp-action="Index" class="btn btn-outline-dark">Back to Start</a></li>
+    </ul>
+</div>
+
+<div>@ViewBag.Exception</div>

@@ -4,9 +4,8 @@
     ViewData["Title"] = "EditNews";
 }
 
-<h2>EditNews</h2>
+<h2>Edit News</h2>
 
-<h4>AdminNewsletterViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -35,8 +34,10 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="NewsletterList">Back to List</a>
+<div class="section-nav">
+    <ul class="section-tab-nav tab-nav">
+        <li><a asp-action="NewsletterList">Back to List</a></li>
+    </ul>
 </div>
 
 @section Scripts {
