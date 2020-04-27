@@ -33,7 +33,7 @@ namespace StefanShopWeb.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NewsletterSubscriptions", x => x.Id);
-                });          
+                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
