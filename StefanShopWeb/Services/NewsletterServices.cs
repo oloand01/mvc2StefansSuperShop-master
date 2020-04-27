@@ -1,5 +1,6 @@
 ﻿using MimeKit;
 using MimeKit.Text;
+using MimeKit.Utils;
 using StefanShopWeb.Data;
 using StefanShopWeb.Models;
 using StefanShopWeb.ViewModels;
@@ -80,35 +81,24 @@ namespace StefanShopWeb.Services
             message.To.AddRange(emailMessage.Select(x => new MailboxAddress(x.Email, x.Email)));
             message.From.Add(new MailboxAddress("info", "info@email.com"));
             message.Subject = model.Subject;
-            emailBody = model.Message;
 
-            var body = new TextPart(TextFormat.Plain)
-            {
-                Text = $"{ emailBody } \n\t ---\n\t Message was sent by: {model.Name}."
-            };
-            
-            var attachment = new MimePart("image", "png")
-            {
-                Content = new MimeContent(System.IO.File.OpenRead("./wwwroot/img/logo.png"), ContentEncoding.Default),
-                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-                ContentTransferEncoding = ContentEncoding.Base64,
-                FileName = Path.GetFileName("./wwwroot/img/logo.png")
-            };
-
-            var multipart = new Multipart("mixed");
-            multipart.Add(body);
-            multipart.Add(attachment);
-            message.Body = multipart;
-
+            var builder = new BodyBuilder();
+            builder.TextBody = model.Message;
+            var image = builder.LinkedResources.Add("./wwwroot/img/logo.png");
+            image.ContentId = MimeUtils.GenerateMessageId();
+            builder.HtmlBody = string.Format($@"<center><img src=""cid:{image.ContentId}""></center>
+<h4>{builder.TextBody}</h4> 
+<br/><hr/><br/><p>Message was sent by: {model.Name}.</p>");
+            message.Body = builder.ToMessageBody();
 
             using (var emailClient = new MailKit.Net.Smtp.SmtpClient())
             {
-                //VARIANT 1: för att få email måste man installera Papercut SMTP (https://github.com/ChangemakerStudios/Papercut-SMTP)
-                emailClient.Connect("127.0.0.1", 25, false);
+                ////VARIANT 1: för att få email måste man installera Papercut SMTP (https://github.com/ChangemakerStudios/Papercut-SMTP)
+                // emailClient.Connect("127.0.0.1", 25, false);
 
-                ////VARIANT 2: för att få email behöver man gå på https://mailtrap.io/share/664808/e0626a741efbc9a521dcc29b06061ee7 och loga in med sin google- eller gitHubkonto
-                //emailClient.Connect("smtp.mailtrap.io", 587, false);
-                //emailClient.Authenticate("a83b18c9f0570b", "ae426e3d31c5fb");
+                ////VARIANT 2: för att få email behöver man gå på https://mailtrap.io/share/664808/e0626a741efbc9a521dcc29b06061ee7 och logga in med sitt Google- eller GitHubkonto
+                emailClient.Connect("smtp.mailtrap.io", 587, false);
+                emailClient.Authenticate("a83b18c9f0570b", "ae426e3d31c5fb");
 
                 emailClient.Send(message);
                 emailClient.Disconnect(true);
