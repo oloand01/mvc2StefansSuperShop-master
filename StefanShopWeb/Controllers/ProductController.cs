@@ -76,10 +76,10 @@ namespace StefanShopWeb.Controllers
 
                 dbContext.SaveChanges();
 
-                return RedirectToAction("Index", "ProductC");
+                return RedirectToAction("Index", "Product");
             }
 
-            return RedirectToAction("UpdateProduct", "ProductC");
+            return RedirectToAction("UpdateProduct", "Product");
         }
 
         public IActionResult CreateProduct()
@@ -110,14 +110,22 @@ namespace StefanShopWeb.Controllers
             dbContext.Products.Add(product);
             dbContext.SaveChanges();
 
-            return RedirectToAction("Index", "ProductC");
+            return RedirectToAction("Index", "Product");
         }
 
 
-        public IActionResult Category(int id)
+        public IActionResult DeleteProduct(int id)
         {
+            var product = dbContext.Products.SingleOrDefault(x => x.ProductId == id);
+           
 
-            return View();
+            if (ModelState.IsValid)
+            {
+                dbContext.Remove(product);
+                dbContext.SaveChanges();
+            }
+
+            return RedirectToAction("Index", "Product");
         }
 
     }

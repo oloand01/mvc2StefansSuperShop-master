@@ -10,7 +10,7 @@
 
 <h2 class="font-italic font-weight-bold mb-4">Uppdatera Produkt:</h2>
 
-<form asp-controller="Home" asp-action="UpdateProduct">
+<form asp-controller="Product" asp-action="UpdateProduct">
 
     <label class="font-weight-bold mb-2">Namn:</label>  <br />
     <input class="form-control" asp-for="@Model.Product.ProductName" value="@Model.Product.ProductName" />
