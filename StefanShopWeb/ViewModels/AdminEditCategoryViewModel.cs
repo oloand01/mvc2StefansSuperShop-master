@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace StefanShopWeb.ViewModels
         [StringLength(15)]
         [Display(Name = "Category name")]
         public string CategoryName { get; set; }
+
+        [Required(ErrorMessage = "Please enter a description")]
+        [MaxLength(100)]
         public string Description { get; set; }
-        public string Picture { get; set; } //?? string, kanske nåt annat
+
+        [Required(ErrorMessage = "Please select a file to upload")]
+        public IFormFile PictureName { get; set; } //?? string, kanske nåt annat
     }
 }

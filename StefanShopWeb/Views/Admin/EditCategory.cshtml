@@ -10,7 +10,7 @@
     <h2>@ViewBag.Edit Category</h2>
 
     <form asp-action="SaveCategory" asp-controller="Admin" enctype="multipart/form-data" method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
+        <div></div>
         <input type="number" asp-for="Id" hidden />
         <div class="form-group">
             <label asp-for="CategoryName"></label>
@@ -25,15 +25,15 @@
         <hr />
         <div class="input-group">
             <div class="input-group-prepend">
-                <label class="custom-file-label" asp-for="Picture"></label>
+                <label class="custom-file-label" asp-for="PictureName"></label>
                 <br />
                 <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
             </div>
             <div class="custom-file">
-                <input type="file" class="custom-file-input" asp-for="Picture" name="files"
+                <input type="file" class="custom-file-input" asp-for="PictureName"
                        aria-describedby="inputGroupFileAddon01" />
 
-                <span asp-validation-for="Picture" class="text-danger"></span>
+                <span asp-validation-for="PictureName" class="text-danger"></span>
             </div>
         </div>
         <hr />
@@ -43,19 +43,23 @@
         @if (ViewBag.Message != null)
         {
             <div class="alert alert-success" id="msg" style="margin-top:20px;">
-                    @ViewBag.Message
-                </div>
+                @ViewBag.Message
+            </div>
         }
     </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script>
+            $(document).ready(function () {
+                setTimeout(function () {
+                    $("#msg").fadeOut();
+                }, 2500);
+            });
+        </script>
+
+    }
 }
-<script>
-    $(document).ready(function () {
-        setTimeout(function () {
-            $("#msg").fadeOut();
-        }, 3000);
-    });
-</script>
+

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StefanShopWeb.Controllers
@@ -96,14 +97,19 @@ namespace StefanShopWeb.Controllers
             ViewBag.Edit = "Edit";
             return View(editCategory);
         }
+        [HttpGet]
+        public IActionResult SaveCategory()
+        {
+            return View();
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> SaveCategory(AdminEditCategoryViewModel model, List<IFormFile> files)
+        public async Task<IActionResult> SaveCategory(AdminEditCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
-                string picName = UploadFiles(files);
+                string picName = UploadFiles(model);
 
                 Categories category = new Categories
                 {
@@ -122,50 +128,36 @@ namespace StefanShopWeb.Controllers
                 }
                 await dbContext.SaveChangesAsync();
 
+                
                 ViewBag.Message = "File successfully uploaded.";
+                Thread.Sleep(2000);
 
                 return View("EditCategory", model);
             }
 
-            return View();
+            return View("EditCategory", model);
         }
 
-        private string UploadFiles(List<IFormFile> files)
+        private string UploadFiles(AdminEditCategoryViewModel model)
         {
-            //long size = files.Sum(f => f.Length);
-
-            var filePath = Path.GetTempFileName();
             string picName = null;
 
-            foreach (var formFile in files)
+            if (model.PictureName != null)
             {
-                if (formFile.Length > 0)
+                var uploads = Path.Combine(_env.WebRootPath, "ProductImages");
+                picName = Path.GetFileNameWithoutExtension(model.PictureName.FileName)
+                      + "_"
+                      + Guid.NewGuid().ToString().Substring(0, 4)
+                      + Path.GetExtension(model.PictureName.FileName);
+                var fullPath = Path.Combine(uploads, picName);
 
+                using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
-                    picName = GetUniqueFileName(formFile.FileName);
-                    var uploads = Path.Combine(_env.WebRootPath, "ProductImages");
-                    var fullPath = Path.Combine(uploads, picName);
-                    formFile.CopyTo(new FileStream(fullPath, FileMode.Create));
+                    model.PictureName.CopyTo(stream);
                 }
             }
 
             return picName;
-        }
-
-        [Authorize(Roles = "Admin")]
-        private string GetUniqueFileName(string fileName)
-        {
-            fileName = Path.GetFileName(fileName);
-
-            if (System.IO.File.Exists(fileName))
-            {
-                System.IO.File.Delete(fileName);
-            }
-
-            return Path.GetFileNameWithoutExtension(fileName)
-                      + "_"
-                      + Guid.NewGuid().ToString().Substring(0, 4)
-                      + Path.GetExtension(fileName);
         }
 
         public IActionResult NewsletterList()
