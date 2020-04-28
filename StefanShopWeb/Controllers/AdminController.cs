@@ -85,16 +85,18 @@ namespace StefanShopWeb.Controllers
 
         public IActionResult EditCategory(int id)
         {
-            var editCategory = dbContext.Categories.Where(c => c.CategoryId == id).Select(c => new AdminEditCategoryViewModel { Id = c.CategoryId, CategoryName = c.CategoryName, Description = c.Description }).FirstOrDefault();
-
-            if(editCategory == null)
-            {
-                var newCategory = new AdminEditCategoryViewModel();
-                ViewBag.Edit = "New";
-                return View(newCategory);
-            }
+            var model = dbContext.Categories.Where(c => c.CategoryId == id).Select(c => new AdminEditCategoryViewModel { Id = c.CategoryId, CategoryName = c.CategoryName, Description = c.Description }).FirstOrDefault();
             ViewBag.Edit = "Edit";
-            return View(editCategory);
+
+            return View(model);
+        }
+
+        public IActionResult NewCategory()
+        {
+            var model = new AdminEditCategoryViewModel();
+            ViewBag.Edit = "New";
+
+            return View("EditCategory", model);
         }
 
         [Authorize(Roles = "Admin")]
