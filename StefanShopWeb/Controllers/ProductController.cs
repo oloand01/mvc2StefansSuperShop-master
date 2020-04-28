@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StefanShopWeb.Data;
+using StefanShopWeb.Models;
 using StefanShopWeb.ViewModels;
 
 namespace StefanShopWeb.Controllers
