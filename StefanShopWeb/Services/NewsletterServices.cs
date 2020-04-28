@@ -94,11 +94,7 @@ namespace StefanShopWeb.Services
             using (var emailClient = new MailKit.Net.Smtp.SmtpClient())
             {
                 ////VARIANT 1: för att få email måste man installera Papercut SMTP (https://github.com/ChangemakerStudios/Papercut-SMTP)
-                // emailClient.Connect("127.0.0.1", 25, false);
-
-                ////VARIANT 2: för att få email behöver man gå på https://mailtrap.io/share/664808/e0626a741efbc9a521dcc29b06061ee7 och logga in med sitt Google- eller GitHubkonto
-                emailClient.Connect("smtp.mailtrap.io", 587, false);
-                emailClient.Authenticate("a83b18c9f0570b", "ae426e3d31c5fb");
+                 emailClient.Connect("127.0.0.1", 25, false);
 
                 emailClient.Send(message);
                 emailClient.Disconnect(true);
