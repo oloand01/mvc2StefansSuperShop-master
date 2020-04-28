@@ -9,7 +9,7 @@
 
 <h3 class="font-italic font-weight-bold mb-4">Lista av Produkter!</h3>
 
-<a class="btn btn-secondary btn-sm" asp-action="CreateProduct" asp-controller="Home">Skapa ny produkt</a>
+<a class="btn btn-secondary btn-sm" asp-action="CreateProduct" asp-controller="Product">Skapa ny produkt</a>
 
 
 <table class="table">
@@ -35,8 +35,8 @@
 
                 <td>
 
-                <td> <a class="btn btn-success btn-sm" asp-action="UpdateProduct" asp-controller="Home" asp-route-id="@meal.ProductId">Uppdatera</a></td>
-                <td><a class="btn btn-danger btn-sm" asp-action="CreateProduct" asp-controller="Admin" asp-route-id="@meal.ProductId">Ta bort</a></td>
+                <td> <a class="btn btn-success btn-sm" asp-action="UpdateProduct" asp-controller="Product" asp-route-id="@meal.ProductId">Uppdatera</a></td>
+                <td><a class="btn btn-danger btn-sm" asp-action="DeleteProduct" asp-controller="Product" asp-route-id="@meal.ProductId">Ta bort</a></td>
 
 
             </tr>
