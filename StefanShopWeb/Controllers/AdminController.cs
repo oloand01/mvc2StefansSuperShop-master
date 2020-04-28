@@ -132,7 +132,7 @@ namespace StefanShopWeb.Controllers
 
                 
                 ViewBag.Message = "File successfully uploaded.";
-                Thread.Sleep(2000);
+                //Thread.Sleep(2000);
 
                 return View("EditCategory", model);
             }
