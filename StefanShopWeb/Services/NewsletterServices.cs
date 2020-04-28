@@ -76,8 +76,8 @@ namespace StefanShopWeb.Services
             string emailBody = string.Empty;
             var message = new MimeMessage();
 
-            var emailMessage = _context.Users;
-            message.To.AddRange(emailMessage.Select(x => new MailboxAddress(x.UserName, x.NormalizedEmail)));
+            var emailMessage = _context.NewsletterSubscriptions;
+            message.To.AddRange(emailMessage.Select(x => new MailboxAddress(x.Email, x.Email)));
             message.From.Add(new MailboxAddress("info", "info@email.com"));
             message.Subject = model.Subject;
             emailBody = model.Message;

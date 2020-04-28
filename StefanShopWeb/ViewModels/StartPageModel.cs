@@ -14,9 +14,5 @@ namespace StefanShopWeb.ViewModels
             public string Name { get; set; }
         }
         public List<TrendingCategory> TrendingCategories { get; set; }
-
-        [Required(ErrorMessage = "Please enter your email address")]
-        [EmailAddress(ErrorMessage = "Misspelled email address")]
-        public string Email { get; set; }
     }
 }

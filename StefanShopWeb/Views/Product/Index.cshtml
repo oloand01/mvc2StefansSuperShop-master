@@ -1,0 +1,45 @@
+﻿@model List<Products>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+<link href="~/StyleSheet.css" rel="stylesheet" />
+
+
+
+<h3 class="font-italic font-weight-bold mb-4">Lista av Produkter!</h3>
+
+<a class="btn btn-secondary btn-sm" asp-action="CreateProduct" asp-controller="Home">Skapa ny produkt</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Produkt:</th>
+            <th scope="col">Pris:</th>
+
+
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var meal in Model)
+        {
+            <tr>
+
+                <td>(@meal.ProductId) </td>
+                <td>@meal.ProductName</td>
+                <td>@meal.UnitPrice</td>
+
+                <td>
+
+                <td> <a class="btn btn-success btn-sm" asp-action="UpdateProduct" asp-controller="Home" asp-route-id="@meal.ProductId">Uppdatera</a></td>
+                <td><a class="btn btn-danger btn-sm" asp-action="CreateProduct" asp-controller="Admin" asp-route-id="@meal.ProductId">Ta bort</a></td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>ts in category

@@ -46,17 +46,24 @@ namespace StefanShopWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewsletterSubscription(StartPageModel model)
+        [ValidateAntiForgeryToken]
+        public IActionResult NewsletterSubscription(string email)
         {
-            var newsletterSubscription = new NewsletterSubscriptions();
+            if(ModelState.IsValid)
+            {
+                var newsletterSubscription = new NewsletterSubscriptions();
 
-            newsletterSubscription.Email = model.Email;
+                newsletterSubscription.Email = email;
 
-            context.NewsletterSubscriptions.Add(newsletterSubscription);
+                context.NewsletterSubscriptions.Add(newsletterSubscription);
 
-            context.SaveChanges();
+                context.SaveChanges();
+            
+                return View("NewsletterSubscriptionConfirmation");
+            }
 
-            return View("NewsletterSubscriptionConfirmation");
+            return View("NewsletterSubscriptionError");
+
         }
     }
 }

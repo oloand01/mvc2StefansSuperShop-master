@@ -9,7 +9,7 @@
 <br />
 <div class="section-nav">
     <ul class="section-tab-nav tab-nav">
-        <li><a asp-action="CreateNews"><strong>Create New</strong></a></li>
+        <li><h4><a asp-action="CreateNews"><strong>Create New</strong></a></h4></li>
     </ul>
 </div>
 <br />
@@ -19,11 +19,13 @@
         {
             <li>
                 <hr />
-                <span class="badge badge-pill ">@item.Date</span>
-                <span class="badge badge-light badge-pill ">Status: @item.Status</span><br />
+                <p>
+                    Date: <span class="badge">@item.Date  </span>  
+                    Status: <span class="badge">@item.Status</span>
+                </p><br />
                 <p>
                     @{var longText = item.Text;
-                        var text = longText.Length > 100 ? longText.Substring(0, 100) + "..." : longText;}
+                        var text = longText.Length > 150 ? longText.Substring(0, 150) + "..." : longText;}
                     @text
                 </p>
                 <div class="section-nav">
@@ -47,7 +49,7 @@
 <br />
 <div class="section-nav">
     <ul class="section-tab-nav tab-nav">
-        <li><a asp-action="Index" class="btn btn-outline-dark">Back to Start</a></li>
+        <li><h4><a asp-action="Index">Back to Start</a></h4></li>
     </ul>
 </div>
 

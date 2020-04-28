@@ -1,6 +1,4 @@
-﻿@*@model StefanShopWeb.ViewModels.StartPageModel*@
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -13,15 +11,15 @@
     <link type="text/css" rel="stylesheet" href="~/css/slick-theme.css" />
     <link type="text/css" rel="stylesheet" href="~/css/nouislider.min.css" />
     <link rel="stylesheet" href="~/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="~/css/style.css" asp-append-version="true"/>
+    <link type="text/css" rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 </head>
 <body>
     <!-- HEADER -->
@@ -166,6 +164,7 @@
     </div>
     <!-- /SECTION -->
     <!-- NEWSLETTER -->
+
     <div id="newsletter" class="section">
         <!-- container -->
         <div class="container">
@@ -174,21 +173,18 @@
                 <div class="col-md-12">
                     <div class="newsletter">
                         <p>Sign Up for the <strong>NEWSLETTER</strong></p>
-                        <form asp-controller="Home" asp-action="NewsletterSubscription" method="post">
-                            <table>
-                                @*<tr>
-                                    <td>
-                                        <span class="newsletter-validation" asp-validation-for="Email"></span><br />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input asp-for="@Model.Email" class="input" type="email" placeholder="Enter Your Email">
-                                        <button type="submit" class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
-                                    </td>
-                                </tr>*@
-                            </table>
+
+                        <form asp-controller="Home" asp-action="NewsletterSubscription" method="post" id="commentForm">
+                            <fieldset>
+                                <input class="input" type="email" placeholder="Enter Your Email" name="email" required>
+                                <button type="submit" class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+                            </fieldset>
                         </form>
+
+                        <script>
+                            $("#commentForm").validate();
+                        </script>
+
                         <ul class="newsletter-follow">
                             <li>
                                 <a href="#"><i class="fa fa-facebook"></i></a>

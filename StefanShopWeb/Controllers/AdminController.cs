@@ -85,9 +85,16 @@ namespace StefanShopWeb.Controllers
 
         public IActionResult EditCategory(int id)
         {
-            var model = dbContext.Categories.Where(c => c.CategoryId == id).Select(c => new AdminEditCategoryViewModel { Id = c.CategoryId, CategoryName = c.CategoryName, Description = c.Description }).FirstOrDefault();
+            var editCategory = dbContext.Categories.Where(c => c.CategoryId == id).Select(c => new AdminEditCategoryViewModel { Id = c.CategoryId, CategoryName = c.CategoryName, Description = c.Description }).FirstOrDefault();
 
-            return View(model);
+            if(editCategory == null)
+            {
+                var newCategory = new AdminEditCategoryViewModel();
+                ViewBag.Edit = "New";
+                return View(newCategory);
+            }
+            ViewBag.Edit = "Edit";
+            return View(editCategory);
         }
 
         [Authorize(Roles = "Admin")]
@@ -96,23 +103,28 @@ namespace StefanShopWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 string picName = UploadFiles(files);
 
-                Categories editCategory = new Categories
+                Categories category = new Categories
                 {
                     CategoryId = model.Id,
                     CategoryName = model.CategoryName,
                     Description = model.Description,
                     PictureName = picName
                 };
-                dbContext.Update(editCategory);
+                if(category.CategoryId == 0)
+                {
+                    dbContext.Add(category);
+                }
+                else
+                {
+                    dbContext.Update(category);
+                }
                 await dbContext.SaveChangesAsync();
 
                 ViewBag.Message = "File successfully uploaded.";
 
                 return View("EditCategory", model);
-
             }
 
             return View();
@@ -239,6 +251,7 @@ namespace StefanShopWeb.Controllers
                     _newsletterServices.SendNews(model);
                     ModelState.Clear();
                     return RedirectToAction("NewsletterList");
+                    
                 }
                 catch (Exception ex)
                 {
