@@ -37,7 +37,8 @@
             </div>
         </div>
         <hr />
-        <button class="btn btn-primary" asp-action="Categories">Back</button>
+        <a asp-action="Categories" class="btn btn-primary">Back</a>
+        @*<button class="btn btn-primary" asp-action="Categories">Back</button>*@
         <button class="btn btn-primary" type="submit" value="Upload">Save</button>
 
         @if (ViewBag.Message != null)
