@@ -120,7 +120,7 @@ namespace StefanShopWeb.Controllers
 
         private string UploadFiles(List<IFormFile> files)
         {
-            long size = files.Sum(f => f.Length);
+            //long size = files.Sum(f => f.Length);
 
             var filePath = Path.GetTempFileName();
             string picName = null;
@@ -134,9 +134,7 @@ namespace StefanShopWeb.Controllers
                     var uploads = Path.Combine(_env.WebRootPath, "ProductImages");
                     var fullPath = Path.Combine(uploads, picName);
                     formFile.CopyTo(new FileStream(fullPath, FileMode.Create));
-
                 }
-
             }
 
             return picName;

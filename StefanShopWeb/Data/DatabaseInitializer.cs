@@ -19,7 +19,7 @@ namespace StefanShopWeb.Data
 
         private void SeedData(ApplicationDbContext context)
         {
-            if (!context.Categories.Any(m => m.PictureName == "beverages2_e6d2.png"))
+            if (!context.Categories.Any(m => m.PictureName == null))
                 context.Categories.Update(new Categories
                 {
                     CategoryId = 1,
@@ -27,7 +27,7 @@ namespace StefanShopWeb.Data
                     CategoryName = "Beverages",
                     PictureName = "beverages2_e6d2.png"
                 });
-            if (!context.Categories.Any(m => m.PictureName == "condiments.jpg"))
+            if (!context.Categories.Any(m => m.PictureName == null))
                 context.Categories.Update(new Categories
                 {
                     CategoryId = 2,
@@ -35,7 +35,7 @@ namespace StefanShopWeb.Data
                     CategoryName = "Condiments",
                     PictureName = "condiments.jpg" 
                 });
-            if (!context.Categories.Any(m => m.PictureName == "confectionsfinal.jpg"))
+            if (!context.Categories.Any(m => m.PictureName == null))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 3,
@@ -43,7 +43,7 @@ namespace StefanShopWeb.Data
                     CategoryName = "Confections",
                     PictureName = "confectionsfinal.jpg" 
                 });
-            if (!context.Categories.Any(m => m.PictureName == "dairyproducts.jpg"))
+            if (!context.Categories.Any(m => m.PictureName == null))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 4,
@@ -51,7 +51,7 @@ namespace StefanShopWeb.Data
                     CategoryName = "Dairy Products",
                     PictureName = "dairyproducts.jpg" 
                 });
-            if (!context.Categories.Any(m => m.PictureName == "grainproducts.jpg"))
+            if (!context.Categories.Any(m => m.PictureName == null))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 5,
@@ -59,7 +59,7 @@ namespace StefanShopWeb.Data
                     CategoryName = "Grains/Cereals",
                     PictureName = "grainproducts.jpg" 
                 });
-            if (!context.Categories.Any(m => m.PictureName == "meatproducts.png"))
+            if (!context.Categories.Any(m => m.PictureName == null))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 6,
@@ -67,7 +67,7 @@ namespace StefanShopWeb.Data
                     CategoryName = "Meat/Poultry",
                     PictureName = "meatproducts.png" 
                 });
-            if (!context.Categories.Any(m => m.PictureName == "produce.jpg"))
+            if (!context.Categories.Any(m => m.PictureName == null))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 7,
@@ -75,7 +75,7 @@ namespace StefanShopWeb.Data
                     CategoryName = "Produce",
                     PictureName = "produce.jpg" 
                 });
-            if (!context.Categories.Any(m => m.PictureName == "seafoodproducts.jpg"))
+            if (!context.Categories.Any(m => m.PictureName == null))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 8,
