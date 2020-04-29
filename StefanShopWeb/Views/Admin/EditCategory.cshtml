@@ -41,26 +41,16 @@
         @*<button class="btn btn-primary" asp-action="Categories">Back</button>*@
         <button class="btn btn-primary" type="submit" value="Upload">Save</button>
 
-        @if (ViewBag.Message != null)
+        @*@if (ViewBag.Message != null)
         {
             <div class="alert alert-success" id="msg" style="margin-top:20px;">
                 @ViewBag.Message
             </div>
-        }
+        }*@
     </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
-        <script>
-            $(document).ready(function () {
-                setTimeout(function () {
-                    $("#msg").fadeOut();
-                }, 2500);
-            });
-        </script>
-
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 

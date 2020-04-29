@@ -35,9 +35,18 @@
             <div class="section-nav">
                 <ul class="section-tab-nav tab-nav">
                     <li><a asp-action="NewCategory"><strong>Create New Category</strong></a></li>
+
                 </ul>
             </div>
-        </div>
+            <div>
+                @if (ViewBag.Msg != "")
+                {
+                    <div class="alert alert-success" id="msg" style="margin-top:20px;">
+                        <p>@ViewBag.Msg</p>
+                    </div>
+                }
+            </div>
+            </div>
         <!-- /row -->
     </div>
     <!-- /container -->
@@ -74,5 +83,11 @@
         </div>
     </div>
 </div>
-
+<script>
+            $(document).ready(function () {
+                setTimeout(function () {
+                    $("#msg").fadeOut();
+                }, 2500);
+            });
+</script>
 

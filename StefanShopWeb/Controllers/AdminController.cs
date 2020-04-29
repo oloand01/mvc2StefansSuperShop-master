@@ -75,12 +75,14 @@ namespace StefanShopWeb.Controllers
         }
 
 
-        public IActionResult Categories()
+        public IActionResult Categories(string msg="")
         {
             var model = new AdminCategoryListViewModel();
             model.MenuItems = SetupMenu("Categories");
             model.Categories = dbContext.Categories.Select(c =>
                 new AdminCategoryListViewModel.Category { Id = c.CategoryId, Name = c.CategoryName }).ToList();
+
+            ViewBag.Msg = msg == "success" ? "File successfully uploaded":"";
             return View(model);
         }
 
@@ -130,11 +132,7 @@ namespace StefanShopWeb.Controllers
                 }
                 await dbContext.SaveChangesAsync();
 
-                
-                ViewBag.Message = "File successfully uploaded.";
-                //Thread.Sleep(2000);
-
-                return View("EditCategory", model);
+                return RedirectToAction("Categories", new { msg = "success" });
             }
 
             return View("EditCategory", model);
