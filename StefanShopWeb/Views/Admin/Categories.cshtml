@@ -46,7 +46,7 @@
                     </div>
                 }
             </div>
-            </div>
+        </div>
         <!-- /row -->
     </div>
     <!-- /container -->
@@ -83,11 +83,18 @@
         </div>
     </div>
 </div>
-<script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script>
             $(document).ready(function () {
                 setTimeout(function () {
                     $("#msg").fadeOut();
                 }, 2500);
             });
-</script>
+        </script>
+    }
+    
+}
+
 
