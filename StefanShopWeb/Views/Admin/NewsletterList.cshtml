@@ -4,12 +4,12 @@
     ViewData["Title"] = "NewsletterList";
 }
 
-<h2>News</h2>
+<h3>Admin</h3>
 
 <br />
 <div class="section-nav">
     <ul class="section-tab-nav tab-nav">
-        <li><h4><a asp-action="CreateNews"><strong>Create New</strong></a></h4></li>
+        <li><h4><a asp-action="CreateNews"><strong>Create News</strong></a></h4></li>
     </ul>
 </div>
 <br />
@@ -17,19 +17,27 @@
     <ul>
         @foreach (var item in Model)
         {
-            <li>
-                <hr />
-                <p>
-                    Date: <span class="badge">@item.Date  </span>  
-                    Status: <span class="badge">@item.Status</span>
-                </p><br />
-                <p>
+         <li>
+            <hr />
+            <p style="color:darkred">
+                Date: <strong>@item.Date  </strong>
+                <br />
+                Status: <strong>@item.Status</strong>
+            </p><br />
+            <p>
+                <strong>
                     @{var longText = item.Text;
                         var text = longText.Length > 150 ? longText.Substring(0, 150) + "..." : longText;}
                     @text
-                </p>
-                <div class="section-nav">
-                    <ul class="section-tab-nav tab-nav">
+                </strong>
+            </p>
+            <div class="section-nav">
+                <ul class="section-tab-nav tab-nav">
+                    <li>
+                        <a asp-action="ViewMessage" asp-route-id="@item.Id">View</a>
+                    </li>
+                    @if (item.Status != "Done")
+                    {
                         <li>
                             <a asp-action="EditNews" asp-route-id="@item.Id">Edit</a>
                         </li>
@@ -37,12 +45,12 @@
                             <a asp-action="DeleteNews" asp-route-id="@item.Id">Delete</a>
                         </li>
                         <li>
-                            <a asp-action="Message" asp-route-id="@item.Id" class="btn btn-light @(item.Status=="Done" ? "disabled" : "")">Send</a>
+                            <a asp-action="Message" asp-route-id="@item.Id">Send</a>
                         </li>
-
-                    </ul>
-                </div>
-            </li>
+                    }
+                </ul>
+            </div>
+        </li>
         }
     </ul>
 </div>

@@ -163,7 +163,7 @@ namespace StefanShopWeb.Controllers
         public IActionResult NewsletterList()
         {
             var list = _newsletterServices.GetNewsLetterList();
-
+           
             return View(list);
         }
 
@@ -191,7 +191,7 @@ namespace StefanShopWeb.Controllers
         public IActionResult EditNews(int id)
         {
             var model = _newsletterServices.GetNewsText(id);
-            model.Date = new DateTime(DateTime.UtcNow.Ticks / 600000000 * 600000000);
+            model.Date = new DateTime(DateTime.Now.Ticks / 600000000 * 600000000);
             model.Status = Status.Uncompleted.ToString();
             return View(model);
         }
@@ -254,6 +254,16 @@ namespace StefanShopWeb.Controllers
 
             }
             return View();
+        }
+        public IActionResult ViewMessage(int id)
+        {
+
+            var model = new AdminNewsletterViewModel();
+            var letter = _newsletterServices.GetNewsText(id);
+            model.Text = letter.Text;
+            model.Date = letter.Date;
+            model.Status = letter.Status;
+            return View(model);
         }
     }
 }

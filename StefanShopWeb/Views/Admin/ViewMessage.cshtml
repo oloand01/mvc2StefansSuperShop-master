@@ -1,0 +1,37 @@
+﻿@model StefanShopWeb.ViewModels.AdminNewsletterViewModel
+
+@{
+    ViewData["Title"] = "ViewMessage";
+}
+
+<h2>View Message</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt style="color: darkred">
+            @(Model.Status == "Done"? "Sent" : "Last edited")
+        </dt>
+        <dd style="color: darkred">
+           @Html.DisplayFor(model => model.Date)
+            
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+
+    </dl>
+</div>
+<br />
+<div class="section-nav">
+    <ul class="section-tab-nav tab-nav">
+        <li><h4><a asp-action="NewsletterList">Back to List</a></h4></li>
+    </ul>
+</div>
+
+

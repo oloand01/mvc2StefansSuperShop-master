@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static StefanShopWeb.ViewModels.AdminCategoryListViewModel;
 
 namespace StefanShopWeb.ViewModels
 {
@@ -15,6 +16,6 @@ namespace StefanShopWeb.ViewModels
         public string Text { get; set; }
         public string Status { get; set; }
 
-       
+
     }
 }
