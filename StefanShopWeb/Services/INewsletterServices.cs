@@ -16,5 +16,6 @@ namespace StefanShopWeb.Services
         public void EditNews(AdminNewsletterViewModel model);
         public void SendNews(AdminMessageViewModel model);
         public void DeleteNewsletter(int id);
+        public bool IsExistingNewsletterSubscription(string email);
     }
 }

@@ -114,5 +114,15 @@ namespace StefanShopWeb.Services
             _context.SaveChanges();
 
         }
+
+        public bool IsExistingNewsletterSubscription(string email)
+        {
+            var result = _context.NewsletterSubscriptions.FirstOrDefault(n => n.Email == email);
+
+            if (result == null)
+                return true;
+            else
+                return false;
+        }
     }
 }
