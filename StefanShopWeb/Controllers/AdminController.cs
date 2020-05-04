@@ -171,7 +171,7 @@ namespace StefanShopWeb.Controllers
         {
 
             var model = new AdminNewsletterViewModel();
-            model.Date = new DateTime(DateTime.UtcNow.Ticks / 600000000 * 600000000);
+            model.Date = new DateTime(DateTime.Now.Ticks / 600000000 * 600000000);
             model.Status = Status.Uncompleted.ToString();
             return View("CreateNews", model);
         }
