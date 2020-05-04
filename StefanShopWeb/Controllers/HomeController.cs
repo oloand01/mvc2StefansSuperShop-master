@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StefanShopWeb.Data;
 using StefanShopWeb.Models;
+using StefanShopWeb.Services;
 using StefanShopWeb.ViewModels;
 
 namespace StefanShopWeb.Controllers
@@ -17,11 +18,13 @@ namespace StefanShopWeb.Controllers
 		// Kommentar från Mikael
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext context;
+        private readonly INewsletterServices _services;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, INewsletterServices services)
         {
             _logger = logger;
             this.context = context;
+            _services = services;
         }
 
         public IActionResult Index()
@@ -51,19 +54,20 @@ namespace StefanShopWeb.Controllers
         {
             if(ModelState.IsValid)
             {
-                var newsletterSubscription = new NewsletterSubscriptions();
+                if(_services.IsExistingNewsletterSubscription(email))
+                {
+                    var newsletterSubscription = new NewsletterSubscriptions();
 
-                newsletterSubscription.Email = email;
+                    newsletterSubscription.Email = email;
 
-                context.NewsletterSubscriptions.Add(newsletterSubscription);
+                    context.NewsletterSubscriptions.Add(newsletterSubscription);
 
-                context.SaveChanges();
+                    context.SaveChanges();
             
-                return View("NewsletterSubscriptionConfirmation");
+                    return View("NewsletterSubscriptionConfirmation");
+                }
             }
-
             return View("NewsletterSubscriptionError");
-
         }
     }
 }
