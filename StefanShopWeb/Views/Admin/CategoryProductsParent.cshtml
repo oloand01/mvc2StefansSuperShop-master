@@ -1,0 +1,17 @@
+﻿@model StefanShopWeb.ViewModels.AdminCategoryProductsViewModel
+    <div>
+        <form id="pagingResultsOptionsForm" class="form-inline"
+              asp-area=""
+              asp-controller="Admin"
+              asp-route-categoryId=@Model.categoryId
+              asp-action="ProductPagingResult"
+              data-ajax="true"
+              data-ajax-method="POST"
+              data-ajax-mode="replace"
+              data-ajax-update="#PagingResult">
+            <select asp-for=@Model.pagingViewModel.PageSize onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.pagingViewModel.PageSizeOptions"></select>
+            <div id="PagingResult">
+                <partial name="PagerAndTablePartial" for="@Model" />
+            </div>
+        </form>
+    </div>

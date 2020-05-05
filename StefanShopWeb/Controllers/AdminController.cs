@@ -89,13 +89,29 @@ namespace StefanShopWeb.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult CategoryProducts(int id)
         {
-            var model = new AdminCategoryProductsViewModel();
+            var viewModel = new AdminCategoryProductsViewModel();
+            viewModel.categoryId = id;
+            viewModel = SetProductListProperties(viewModel);
+            return View("CategoryProductsParent", viewModel);
+        }
 
-            model.prodList = dbContext.Products.Where(p => p.CategoryId == id).ToList();
-            model.cats = dbContext.Categories.SingleOrDefault(c => c.CategoryId == id);
-            
-            
-            return View(model);
+        [Authorize(Roles = "Admin")]
+        public IActionResult ProductPagingResult(AdminCategoryProductsViewModel viewModel, int? Page, int? PageSize)
+        {
+            if (Page != null) viewModel.pagingViewModel.Page = Page.GetValueOrDefault();
+            if (PageSize != null) viewModel.pagingViewModel.PageSize = PageSize.GetValueOrDefault();
+            viewModel = SetProductListProperties(viewModel);
+            return PartialView("PagerAndTablePartial", viewModel);
+        }
+
+        public AdminCategoryProductsViewModel SetProductListProperties(AdminCategoryProductsViewModel viewModel)
+        {
+            viewModel.cats = dbContext.Categories.SingleOrDefault(c => c.CategoryId == viewModel.categoryId);
+            var products = dbContext.Products.Where(p => p.CategoryId == viewModel.categoryId).AsQueryable();
+            products = viewModel.pagingViewModel.SetPaging(viewModel.pagingViewModel.Page, viewModel.pagingViewModel.PageSize, products).Cast<Products>();
+            products.OrderBy(q => q.ProductName);
+            viewModel.prodList = products.ToList();
+            return viewModel;
         }
 
         public IActionResult EditCategory(int id)
