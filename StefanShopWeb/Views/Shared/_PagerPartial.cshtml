@@ -1,0 +1,39 @@
+﻿@model StefanShopWeb.ViewModels.AdminCategoryProductsViewModel
+
+
+
+@{
+    int p = 1;
+}
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        @foreach (var page in Model.pagingViewModel.GetPages)
+        {
+            if (page == "...")
+            {
+                <li class="page-item disabled">...</li>
+            }
+            else
+            {
+                p = Convert.ToInt32(page);
+                <li class="page-item  @(Model.pagingViewModel.CurrentPage == p ? "active" : "")">
+                    <a asp-area=""
+                       asp-controller="Admin"
+                       asp-action="ProductPagingResult"
+                       asp-route-categoryId=@Model.categoryId
+                       asp-route-Page="@p"
+                       asp-route-PageSize="@Model.pagingViewModel.PageSize"
+                       data-ajax="true"
+                       data-ajax-method="GET"
+                       data-ajax-mode="replace"
+                       data-ajax-update="#PagingResult"
+                       class="page-link">
+                        @p
+                    </a>
+                </li>
+            }
+
+        }
+    </ul>
+</nav>
