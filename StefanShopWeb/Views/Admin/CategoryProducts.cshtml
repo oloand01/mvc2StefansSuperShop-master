@@ -1,0 +1,23 @@
+﻿@model StefanShopWeb.ViewModels.AdminCategoryProductsViewModel
+
+@{ 
+    Layout = "_Layout";
+}
+    <div class="text-center">
+        <h1>@Model.cats.CategoryName</h1>
+
+        <div class="row text-center">
+
+            @foreach (var item in Model.prodList)
+            {
+                <div class="row">
+                    @item.ProductName
+                </div>
+            }
+
+        </div>
+        <br />
+        <div>
+            <a href="##" role="button" class="btn btn-default" onClick="history.go(-1); return false;"> Return to category overview</a>
+        </div>
+    </div>

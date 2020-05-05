@@ -86,6 +86,17 @@ namespace StefanShopWeb.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
+        public IActionResult CategoryProducts(int id)
+        {
+            var model = new AdminCategoryProductsViewModel();
+
+            model.prodList = dbContext.Products.Where(p => p.CategoryId == id).ToList();
+            model.cats = dbContext.Categories.SingleOrDefault(c => c.CategoryId == id);
+                
+            return View(model);
+        }
+
         public IActionResult EditCategory(int id)
         {
             var model = dbContext.Categories.Where(c => c.CategoryId == id).Select(c => new AdminEditCategoryViewModel { Id = c.CategoryId, CategoryName = c.CategoryName, Description = c.Description }).FirstOrDefault();
