@@ -93,7 +93,8 @@ namespace StefanShopWeb.Controllers
 
             model.prodList = dbContext.Products.Where(p => p.CategoryId == id).ToList();
             model.cats = dbContext.Categories.SingleOrDefault(c => c.CategoryId == id);
-                
+            
+            
             return View(model);
         }
 

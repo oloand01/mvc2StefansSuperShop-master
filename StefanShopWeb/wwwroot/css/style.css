@@ -1155,6 +1155,16 @@ textarea.input {
 	Products slick
 \*----------------------------*/
 
+.products-slickar .slick-list {
+    padding-bottom: 60px;
+    margin-bottom: -60px;
+    z-index: 2;
+    display: block;
+    height: auto;
+    border: 1px solid transparent;
+    float:left;
+}
+
 .products-slick .slick-list {
   padding-bottom: 60px;
   margin-bottom: -60px;
