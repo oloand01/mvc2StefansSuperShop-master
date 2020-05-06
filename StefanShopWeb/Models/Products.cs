@@ -30,6 +30,7 @@ namespace StefanShopWeb.Models
         public short? UnitsOnOrder { get; set; }
         public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
+        public DateTime FirstSalesDate { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
         [InverseProperty(nameof(Categories.Products))]
