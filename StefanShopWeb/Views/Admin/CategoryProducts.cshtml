@@ -1,94 +1,127 @@
 ﻿@model StefanShopWeb.ViewModels.AdminCategoryProductsViewModel
 
-    <div class="text-center">
-        <h1>@Model.cats.CategoryName</h1>
+@{
+    ViewData["Title"] = "CategoryProducts";
 
-        <div class="row text-center">
-            <div class="products-tabs">
-                <div class="container-fluid mt-4">
+    string GetClickSortOrder(string columnName)
+    {
+        if (columnName == Model.SortColumn)
+        {
+            string o = "asc";
+            if (Model.SortOrder == "asc")
+            {
+                o = "desc";
+            }
+            return o;
+        }
+        else
+        {
+            return "asc";
+        }
+    }
 
-                    <!-- product -->
-                    @foreach (var item in Model.prodList)
-                    {
-                        <div class="product col-sm-2" style="margin-right: .25rem;">
-                            <div class="product-img">
-                                @if (Model.cats.CategoryName == "Beverages")
-                                {
-                                    <img src="~/ProductImages/beverages4_83af.jpg" alt="">
-                                }
-                                else if (Model.cats.CategoryName == "Condiments")
-                                {
-                                    <img src="~/ProductImages/condiments.jpg" alt="">
-                                }
-                                else if (Model.cats.CategoryName == "Confections")
-                                {
-                                    <img src="~/ProductImages/confectionsfinal.jpg" alt="">
-                                }
-                                else if (Model.cats.CategoryName == "Grains/Cereals")
-                                {
-                                    <img src="~/ProductImages/grainproducts.jpg" alt="">
-                                }
-                                else if (Model.cats.CategoryName == "Meat/Poultry")
-                                {
-                                    <img src="~/ProductImages/meatproducts.png" alt="">
-                                }
-                                else if (Model.cats.CategoryName == "Produce")
-                                {
-                                    <img src="~/ProductImages/produce.jpg" alt="">
-                                }
-                                else if (Model.cats.CategoryName == "Seafood")
-                                {
-                                    <img src="~/ProductImages/seafoodproducts.jpg" alt="">
-                                }
-                                @*<img src="~/img/drinks.jpg" alt="">*@
+    void RenderSortIcon(string columnName)
+    {
+        if (columnName != Model.SortColumn)
+        {
+            return;
+        }
+        <i class="fa fa-fw fa-sort-@Model.SortOrder"></i>
+    }
+}
+<div class="text-center">
+    <h1>@Model.cats.CategoryName</h1>
 
-                                <div class="product-label">
+    <div class="row text-center">
+        <div class="products-tabs">
+            <div class="container-fluid mt-4">
 
-                                </div>
+                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Name', '@GetClickSortOrder("Name")')">Id @{ RenderSortIcon("Name");}</a>
+                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Price', '@GetClickSortOrder("Price")')">Title @{ RenderSortIcon("Price"); }</a>
+                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Date', '@GetClickSortOrder("Date")')">Released @{ RenderSortIcon("Date"); }</a>
+
+                <!-- product -->
+                @foreach (var item in Model.prodList)
+                {
+                    <div class="product col-sm-2" style="margin-right: .25rem;">
+                        <div class="product-img">
+                            @if (Model.cats.CategoryName == "Beverages")
+                            {
+                                <img src="~/ProductImages/beverages4_83af.jpg" alt="">
+                            }
+                            else if (Model.cats.CategoryName == "Condiments")
+                            {
+                                <img src="~/ProductImages/condiments.jpg" alt="">
+                            }
+                            else if (Model.cats.CategoryName == "Confections")
+                            {
+                                <img src="~/ProductImages/confectionsfinal.jpg" alt="">
+                            }
+                            else if (Model.cats.CategoryName == "Grains/Cereals")
+                            {
+                                <img src="~/ProductImages/grainproducts.jpg" alt="">
+                            }
+                            else if (Model.cats.CategoryName == "Meat/Poultry")
+                            {
+                                <img src="~/ProductImages/meatproducts.png" alt="">
+                            }
+                            else if (Model.cats.CategoryName == "Produce")
+                            {
+                                <img src="~/ProductImages/produce.jpg" alt="">
+                            }
+                            else if (Model.cats.CategoryName == "Seafood")
+                            {
+                                <img src="~/ProductImages/seafoodproducts.jpg" alt="">
+                            }
+                            @*<img src="~/img/drinks.jpg" alt="">*@
+
+                            <div class="product-label">
+
                             </div>
-                            <div class="product-body">
-                                <p class="product-category">@Model.cats.CategoryName</p>
-
-
-                                <h3 class="product-name"><a href="#">@item.ProductName</a></h3>
-                                <h4 class="product-price">@String.Format("{0:C}", item.UnitPrice) @*<del class="product-old-price">$990.00</del>*@</h4>
-
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </div>
-
-                                @*-------*@
-
-                                <div class="product-details">
-                                    <p>Units in stock: @item.UnitsInStock</p>
-                                    <p>Units on order: @item.UnitsOnOrder</p>
-                                </div>
-
-
-                                @*--------*@
-
-                                @*<div class="product-btns">
-                                <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                            </div>*@
-                            </div>
-                            @*<div class="add-to-cart">
-                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                        </div>*@
                         </div>
-                    }
-                    <!-- /product -->
+                        <div class="product-body">
+                            <p class="product-category">@Model.cats.CategoryName</p>
 
-                </div>
+
+                            <h3 class="product-name"><a href="#">@item.ProductName</a></h3>
+                            <h4 class="product-price">@String.Format("{0:C}", item.UnitPrice) @*<del class="product-old-price">$990.00</del>*@</h4>
+
+                            <div class="product-rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+
+                            @*-------*@
+
+                            <div class="product-details">
+                                <p>Units in stock: @item.UnitsInStock</p>
+                                <p>Units on order: @item.UnitsOnOrder</p>
+                            </div>
+
+
+                            @*--------*@
+
+                            @*<div class="product-btns">
+                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                    </div>*@
+                        </div>
+                        @*<div class="add-to-cart">
+                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                </div>*@
+                    </div>
+                }
+                <!-- /product -->
+
             </div>
         </div>
-        <br />
-        <div>
-            <a href="##" role="button" class="btn btn-default" onClick="history.go(-1); return false;"> Return to category overview</a>
-        </div>
     </div>
+    <br />
+    <div>
+        <a href="##" role="button" class="btn btn-default" onClick="history.go(-1); return false;"> Return to category overview</a>
+    </div>
+</div>

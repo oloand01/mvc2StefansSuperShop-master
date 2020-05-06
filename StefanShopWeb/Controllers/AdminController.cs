@@ -87,12 +87,66 @@ namespace StefanShopWeb.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult CategoryProducts(int id)
+        public IActionResult CategoryProducts(int id, string sortcolumn, string sortorder)
         {
+
             var viewModel = new AdminCategoryProductsViewModel();
             viewModel.categoryId = id;
             viewModel = SetProductListProperties(viewModel);
+
+            var items = dbContext.Products.Where(p => p.ProductId == id).Select(o => new AdminCategoryProductsViewModel.CategoryProductsListViewModel
+            {
+               ProdName = o.ProductName,
+               ProdPrice = o.UnitPrice,
+               ProdDate = o.FirstSalesDate
+            });
+
+            if (string.IsNullOrEmpty(sortorder))
+                sortorder = "asc";
+
+            items = AddSorting(items, ref sortcolumn, ref sortorder);
+            viewModel.Items = items.ToList();
+            viewModel.SortColumn = sortcolumn;
+            viewModel.SortOrder = sortorder;
+
             return View("CategoryProductsParent", viewModel);
+        }
+
+        private IQueryable<AdminCategoryProductsViewModel.CategoryProductsListViewModel> AddSorting(IQueryable<AdminCategoryProductsViewModel.CategoryProductsListViewModel> items, ref string sortcolumn, ref string sortorder)
+        {
+            if (string.IsNullOrEmpty(sortcolumn))
+                sortcolumn = "id";
+            if (string.IsNullOrEmpty(sortorder))
+                sortorder = "asc";
+
+
+            if (sortcolumn == "Name")
+            {
+                if (sortorder == "asc")
+                    items = items.OrderBy(p => p.ProdName);
+                else
+                    items = items.OrderByDescending(p => p.ProdName);
+            }
+            else if (sortcolumn == "Date")
+            {
+                if (sortorder == "asc")
+                    items = items.OrderBy(p => p.ProdDate);
+                else
+                    items = items.OrderByDescending(p => p.ProdDate);
+
+            }
+            else
+            {
+                if (sortorder == "asc")
+                    items = items.OrderBy(p => p.ProdPrice);
+                else
+                    items = items.OrderByDescending(p => p.ProdPrice);
+
+                sortcolumn = "Price";
+            }
+
+            return items;
+
         }
 
         [Authorize(Roles = "Admin")]
@@ -108,9 +162,11 @@ namespace StefanShopWeb.Controllers
         {
             viewModel.cats = dbContext.Categories.SingleOrDefault(c => c.CategoryId == viewModel.categoryId);
             var products = dbContext.Products.Where(p => p.CategoryId == viewModel.categoryId).AsQueryable();
+            
             products = viewModel.pagingViewModel.SetPaging(viewModel.pagingViewModel.Page, viewModel.pagingViewModel.PageSize, products).Cast<Products>();
             products.OrderBy(q => q.ProductName);
             viewModel.prodList = products.ToList();
+            //viewModel.prods = products.ToList();
             return viewModel;
         }
 
