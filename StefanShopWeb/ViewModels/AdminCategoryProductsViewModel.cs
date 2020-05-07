@@ -23,7 +23,7 @@ namespace StefanShopWeb.ViewModels
             public string ProdName { get; set; }
             public DateTime? ProdDate { get; set; }
             public decimal? ProdPrice { get; set; }
-
+            public bool? IsWishListed { get; set; }
         }
 
         public AdminCategoryProductsViewModel()

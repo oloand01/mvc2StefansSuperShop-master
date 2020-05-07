@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace StefanShopWeb.Models
 {
-    public class Wishinglist
+    public partial class Wishinglist
     {
         [Key]
         [Column("Id")]
         public int Id { get; set; }
         [Column("UserId")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Column("ProductID")]
         public int ProductID { get; set; }
     }

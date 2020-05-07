@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StefanShopWeb.Data;
 using StefanShopWeb.Models;
@@ -15,11 +16,12 @@ namespace StefanShopWeb.Controllers
 
         private readonly ApplicationDbContext dbContext;
 
-       
 
-        public ProductController(ApplicationDbContext context) 
+        private readonly UserManager<IdentityUser> _userManager;
+        public ProductController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             dbContext = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -211,6 +213,23 @@ namespace StefanShopWeb.Controllers
             viewModel.prodList = products.ToList();
             //viewModel.prods = products.ToList();
             return viewModel;
+        }
+        public async Task<IActionResult> AddToWishlist(int wishlistid, int productid)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (wishlistid == 0)
+            {
+                var wish = new Wishinglist { ProductID = productid, UserId = user.Id };
+                dbContext.Wishinglist.Add(wish);
+            }
+            else
+            {
+                var wish = dbContext.Wishinglist.FirstOrDefault(w => w.Id == wishlistid);
+                dbContext.Wishinglist.Remove(wish);
+            }
+            dbContext.SaveChanges();
+
+            return View();
         }
 
     }
