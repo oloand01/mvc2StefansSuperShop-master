@@ -16,7 +16,7 @@ namespace StefanShopWeb.ViewModels
 
         public string SortColumn { get; set; }
         public string SortOrder { get; set; }
-        public List<CategoryProductsViewModel> Items { get; set; } = new List<CategoryProductsViewModel>();
+        public List<CategoryProductsListViewModel> Items { get; set; } = new List<CategoryProductsListViewModel>();
         public class CategoryProductsListViewModel
         {
             public int ProdId { get; set; }

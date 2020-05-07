@@ -19,7 +19,7 @@
                 p = Convert.ToInt32(page);
                 <li class="page-item  @(Model.pagingViewModel.CurrentPage == p ? "active" : "")">
                     <a asp-area=""
-                       asp-controller="Admin"
+                       asp-controller="Product"
                        asp-action="ProductPagingResult"
                        asp-route-categoryId=@Model.categoryId
                        asp-route-Page="@p"

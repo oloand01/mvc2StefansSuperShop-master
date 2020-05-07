@@ -72,7 +72,7 @@
                     {
                         <tr>
                             <th scope="row">@cat.Id</th>
-                            <td><a asp-action="CategoryProducts" asp-route-id="@cat.Id">@cat.Name</a></td>
+                            <td>@cat.Name</td>
                             <td><img src="@Url.Action("GetCategoryImage", "General", new { id = cat.Id })" alt="@cat.Name" /></td>
                             <td><a asp-action="EditCategory" asp-route-id="@cat.Id">Edit</a></td>
                         </tr>

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StefanShopWeb.Data;
+using StefanShopWeb.Models;
+using StefanShopWeb.ViewModels;
 
 namespace StefanShopWeb.Controllers
 {
@@ -38,5 +40,7 @@ namespace StefanShopWeb.Controllers
         }
 
         
+
+
     }
 }
