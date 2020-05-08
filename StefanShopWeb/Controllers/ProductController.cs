@@ -74,6 +74,7 @@ namespace StefanShopWeb.Controllers
                 product.UnitsOnOrder = products.Product.UnitsOnOrder;
                 product.ReorderLevel = products.Product.ReorderLevel;
                 product.Discontinued = products.Product.Discontinued;
+                product.FirstSalesDate = products.Product.FirstSalesDate;
 
 
 
@@ -109,6 +110,8 @@ namespace StefanShopWeb.Controllers
             product.UnitsOnOrder = model.ProductNew.UnitsOnOrder;
             product.ReorderLevel = model.ProductNew.ReorderLevel;
             product.Discontinued = model.ProductNew.Discontinued;
+            product.FirstSalesDate = model.Product.FirstSalesDate;
+
 
             dbContext.Products.Add(product);
             dbContext.SaveChanges();

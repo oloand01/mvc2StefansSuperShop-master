@@ -27,38 +27,71 @@
 </div>
 <!-- /SECTION -->
 
+
 <div class="section">
     <!-- container -->
+    <h3 class="font-italic font-weight-bold mb-4">Lista av produkter</h3>
+
+    <a class="btn btn-secondary btn-sm" asp-action="CreateProduct" asp-controller="Product">Create new</a>
+
+
     <div class="container">
-        <!-- row -->
-        <div class="row">
+        <table class="table table-striped w-auto">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Products[0].CategoryName)
+                    </th>
+                    <th>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var product in Model.Products)
-                    {
-                    <tr>
-                        <th scope="row">@product.Id</th>
-                        <td>@product.Name</td>
-                        <td>@product.CategoryName</td>
-                        <td>@product.Price</td>
-                        <td><a asp-action="EditProduct" asp-route-id="@product.Id">Edit</a></td>
-                    </tr>
-                    }
-                    </tbody>
-            </table>
+                    </th>
+                    <th>
 
-        </div>
+                    </th>
+
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Products)
+                {
+                    <tr class="table-info">
+                        <th scope="row">
+                            @item.Id
+                        </th>
+                        <th scope="row">
+                            @item.Name
+                        </th>
+                        <th scope="row">
+                            @item.Price
+                        </th>
+                        <th scope="row">
+                            @item.CategoryName
+                        </th>
+                        <td>
+                            <a class="btn btn-success btn-sm" asp-action="UpdateProduct" asp-controller="Product" asp-route-id="@item.Id">Update</a> 
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" asp-action="DeleteProduct" asp-controller="Product" asp-route-id="@item.Id">Delete</a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
+
+
 
 
