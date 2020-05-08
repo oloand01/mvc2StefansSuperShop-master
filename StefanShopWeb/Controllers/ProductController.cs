@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using StefanShopWeb.Data;
 using StefanShopWeb.Models;
@@ -229,7 +230,6 @@ namespace StefanShopWeb.Controllers
         public async Task<IActionResult> GetWishlist( )
         {
             var model = new WishlistViewModel();
-           // var user = await _userManager.GetUserAsync(HttpContext.User);
 
             if (User.Identity.Name == null)
             {
@@ -240,14 +240,26 @@ namespace StefanShopWeb.Controllers
             {
                 return Challenge();
             }
-            var wishlist = model.WishProducts;
-            if (wishlist == null)
+
+            model.WishProducts = dbContext.Wishinglist
+                .Where(u => u.UserId == user.Id)
+                .Where(p => p.Product.ProductId==p.ProductId)
+                .Select(r => new Wishinglist 
+                { 
+                    Product=r.Product,
+                    ProductId=r.ProductId,
+                    UserId = r.UserId
+                })
+                .ToList();
+
+            if (model.WishProducts.Count() == 0)
             {
-                return RedirectToAction("EmptyWishlist");
+                 return RedirectToAction("EmptyWishlist");
             }
 
             return View(model);
         }
+        [Authorize]
         public IActionResult EmptyWishlist()
         {
             return View();

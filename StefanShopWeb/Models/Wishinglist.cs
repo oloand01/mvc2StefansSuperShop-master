@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StefanShopWeb.Models
 {
-    public partial class Wishinglist
+    public class Wishinglist
     {
         public int Id { get; set; }
         public string UserId { get; set; }

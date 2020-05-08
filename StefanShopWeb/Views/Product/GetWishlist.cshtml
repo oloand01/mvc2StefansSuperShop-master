@@ -2,10 +2,12 @@
 @{
     ViewData["Title"] = "GetWishlist";
 }
+<body>
+
 <div id="breadcrumb" class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
+    <div class="container" style="width: 100%">
+        <div class="row" style="width: 100%">
+            <div class="col-md-12" style="width: 100%">
                 <ul class="breadcrumb-tree">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li class="active">Wishlist(@Model.WishProducts.Count())</li>
@@ -14,20 +16,12 @@
         </div>
     </div>
 </div>
-<div class="section">
-    <div class="container">
-        <div class="row">
-            <div id="store" class="col-md-9">
+<div class="section" style=" width: 100%">
+    <div class="container" style="width: 100%">
+        <div class="row" style="width: 100%">
+            <div id="store" class="col-md-12" style="width: 100%">
                 <div class="store-filter clearfix">
                     <div class="store-sort">
-                        @*<label>
-                                Sort By:
-                                <select class="input-select">
-                                    <option value="0">Popular</option>
-                                    <option value="1">Position</option>
-                                </select>
-                            </label>*@
-
                         <label>
                             Show:
                             <select class="input-select">
@@ -36,28 +30,19 @@
                             </select>
                         </label>
                     </div>
-                    @*<ul class="store-grid">
-                            <li class="active"><i class="fa fa-th"></i></li>
-                            <li><a href="#"><i class="fa fa-th-list"></i></a></li>
-                        </ul>*@
                 </div>
                 <div class="row">
                     @foreach (var prod in Model.WishProducts)
                     {
-
-                        <div class="col-md-3 col-xs-6">
+                        <div class="col-md-3 col-xs-6" style="margin-right :15px">
                             <div class="product">
                                 <div class="product-img">
-                                    <img src="./img/product01.png" alt="">
-                                    <div class="product-label">
-                                        <span class="sale">-30%</span>
-                                        <span class="new">NEW</span>
-                                    </div>
+                                    <img src="~/img/product02.png" />
                                 </div>
                                 <div class="product-body">
                                     <p class="product-category">Category</p>
-                                    <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                    <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                                    <h3 class="product-name"><a href="#">@prod.Product.ProductName</a></h3>
+                                    <h4 class="product-price">@prod.Product.UnitPrice </h4>
                                     <div class="product-rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -92,5 +77,6 @@
         </div>
     </div>
 </div>
+</body>
 
 

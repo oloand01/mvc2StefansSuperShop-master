@@ -9,6 +9,7 @@ namespace StefanShopWeb.ViewModels
 {
     public class WishlistViewModel
     {
-        public List<Products> WishProducts { get; set; } = new List<Products>();
+        public List<Wishinglist> WishProducts { get; set; } = new List<Wishinglist>();
+
     }
 }
