@@ -240,7 +240,7 @@ namespace StefanShopWeb.Controllers
                 dbContext.Wishinglist.Remove(wish);
                 dbContext.SaveChanges();
             }
-
+            //
 
             return View();
         }
