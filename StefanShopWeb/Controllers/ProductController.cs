@@ -214,6 +214,33 @@ namespace StefanShopWeb.Controllers
             //viewModel.prods = products.ToList();
             return viewModel;
         }
+        [Authorize]
+        public async Task<IActionResult> GetWishlist( )
+        {
+            var model = new WishlistViewModel();
+           // var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (User.Identity.Name == null)
+            {
+                return View("~/Identity/Account/Login.cshtml");
+            }
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Challenge();
+            }
+            var wishlist = model.WishProducts;
+            if (wishlist == null)
+            {
+                return RedirectToAction("EmptyWishlist");
+            }
+
+            return View(model);
+        }
+        public IActionResult EmptyWishlist()
+        {
+            return View();
+        }
         public async Task<IActionResult> AddToWishlist(int wishlistid, int productid)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
