@@ -109,10 +109,17 @@
                             @if (SignInManager.IsSignedIn(User))
                             {
                                 <div class="product-btns" id="prodButtons">
-                                    <form asp-action="AddToWishlist" asp-controller="Product" asp-route-wishlistid="" asp-route-productid="@item.ProductId"
+                                    <form asp-action="AddToWishlist" asp-controller="Product" asp-route-wishlistid="@(item.IsWhished ? 1 : 0)" asp-route-productid="@item.ProductId"
                                           data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#prodButtons">
                                         <button class="add-to-wishlist" type="submit">
-                                            <i class="fa fa-heart-o"></i>
+                                            @if (item.IsWhished)
+                                            {
+                                                <i class="fa fa-heart"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa fa-heart-o"></i>
+                                            }
                                             @*<span class="tooltipp">add to wishlist</span>*@
                                         </button>
                                     </form>

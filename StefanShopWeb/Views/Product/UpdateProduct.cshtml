@@ -8,100 +8,147 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
 
 
-<h2 class="font-italic font-weight-bold mb-4">Uppdatera Produkt:</h2>
 
-<form asp-controller="Product" asp-action="UpdateProduct">
-
-    <label class="font-weight-bold mb-2">Namn:</label>  <br />
-    <input class="form-control" asp-for="@Model.Product.ProductName" value="@Model.Product.ProductName" />
-
-    <label class="font-weight-bold mb-2">UnitPrice:</label>  <br />
-    <input class="form-control" asp-for="@Model.Product.UnitPrice" value="@Model.Product.UnitPrice" />
-
-    <label class="font-weight-bold mb-2">QuantityPerUnit:</label>  <br />
-    <input class="form-control" asp-for="@Model.Product.QuantityPerUnit" value="@Model.Product.QuantityPerUnit" />
+<section class="testimonials text-center bg-light">
+    <div class="container">
 
 
-    <label class="font-weight-bold mb-2">UnitsInStock:</label>  <br />
-    <input class="form-control" asp-for="@Model.Product.UnitsInStock" value="@Model.Product.UnitsInStock" />
+        <h1 class="font-italic font-weight-bold mb-5">Update Produkt</h1>
+
+        <form method="post" asp-action="UpdateProduct" asp-controller="Product">
 
 
-    <label class="font-weight-bold mb-2">UnitsOnOrder:</label>  <br />
-    <input class="form-control" asp-for="@Model.Product.UnitsOnOrder" value="@Model.Product.UnitsOnOrder" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="@Model.Product.ProductName">Name</label>
+                    <input asp-for="@Model.Product.ProductName" class="form-control" id="inputEmail4" placeholder="Name" />
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="@Model.Product.UnitPrice">Price</label>
+                    <input asp-for="@Model.Product.UnitPrice" class="form-control" id="inputEmail4" placeholder="UnitPrice" />
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4">First Sales Date</label>
+                    <input asp-for="@Model.Product.FirstSalesDate" type="date" class="form-control" id="inputEmail4" placeholder="Enter date">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="@Model.Product.QuantityPerUnit">QuantityPerUnit</label>
+                    <input asp-for="@Model.Product.QuantityPerUnit" class="form-control" id="inputEmail4" placeholder="QuantityPerUnit" />
+
+                </div>
 
 
-    <label class="font-weight-bold mb-2">ReorderLevel:</label>  <br />
-    <input class="form-control" asp-for="@Model.Product.ReorderLevel" value="@Model.Product.ReorderLevel" />
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="@Model.Product.UnitsOnOrder">UnitsOnOrder</label>
+                    <input asp-for="@Model.Product.UnitsOnOrder" class="form-control" id="inputEmail4" placeholder="UnitsOnOrder" />
+
+                </div>
 
 
-    @*<label class="font-weight-bold mb-2">Discontinued:</label>  <br />
-        <input class="form-control" asp-for="@Model.Product.Discontinued" value="@Model.Product.Discontinued" />*@
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="@Model.Product.ReorderLevel">ReorderLevel</label>
+                    <input asp-for="@Model.Product.ReorderLevel" class="form-control" id="inputEmail4" placeholder="ReorderLevel" />
 
-    <div class="form-group">
-        <label class="font-weight-bold" asp-for="@Model.Product.Discontinued"><span class="input-required">*</span>Discontinued</label>   <br />
+                </div>
 
-        @if (@Model.Product.Discontinued == true)
-        {
-            <label>Ja</label>
-            <input type="radio" asp-for="@Model.Product.Discontinued" value="true" checked />
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
 
-            <label>Nej</label>
-            <input type="radio" asp-for="@Model.Product.Discontinued" value="false" />
-        }
-        else
-        {
-            <label>Ja</label>
-            <input type="radio" asp-for="@Model.Product.Discontinued" value="true" />
+                    <label class="font-weight-bold" for="inputEmail4" asp-for=@Model.Product.CategoryId>Category</label>
 
-            <label>Nej</label>
-            <input type="radio" asp-for="@Model.Product.Discontinued" value="false" checked />
-        }
+                    <select asp-for="@Model.Product.CategoryId" id="inputState" class="form-control">
+                        <option></option>
 
-        <span class="font-weight-bold" asp-validation-for="@Model.Product.Discontinued" style="color: red;"></span>
+                        @foreach (var category in Model.ListCategories)
+                        {
+                            if (Model.SelectedCategory.CategoryId.Equals(category.CategoryId))
+                            {
+                                <option selected="selected" value="@category.CategoryId">@category.CategoryName</option>
+                            }
+                            else
+                            {
+                                <option value="@category.CategoryId">@category.CategoryName</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="ProductNew.CategoryId" style="color: red;"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="@Model.Product.SupplierId">Supplier</label>
+                    <select asp-for="@Model.Product.SupplierId" id="inputState" class="form-control">
+
+                        <option></option>
+                        @foreach (var supplier in Model.ListSuppliers)
+                        {
+                            if (Model.SelectedSupplier.SupplierId.Equals(supplier.SupplierId))
+                            {
+                                <option selected="selected" value="@supplier.SupplierId">@supplier.CompanyName</option>
+                            }
+                            else
+                            {
+                                <option value="@supplier.SupplierId">@supplier.CompanyName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    <label class="font-weight-bold" asp-for="ProductNew.Discontinued">Discontinued</label>
+                    <input class="form-control" asp-for="ProductNew.Discontinued" placeholder="Discontinued" />
+                    <span asp-validation-for="ProductNew.Discontinued" style="color: red;"></span>
+                </div>*@
+
+
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="@Model.Product.UnitsInStock">UnitsInStock</label>
+                    <input asp-for="@Model.Product.UnitsInStock" class="form-control" id="inputEmail4" placeholder="UnitsInStock" />
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="@Model.Product.Discontinued"><span class="input-required">*</span>Discontinued</label>   <br />
+                    @if (@Model.Product.Discontinued == true)
+                    {
+                        <label>Ja</label>
+                        <input type="radio" asp-for="@Model.Product.Discontinued" value="true" checked />
+
+                        <label>Nej</label>
+                        <input type="radio" asp-for="@Model.Product.Discontinued" value="false" />
+                    }
+                    else
+                    {
+                        <label>Ja</label>
+                        <input type="radio" asp-for="@Model.Product.Discontinued" value="true" />
+
+                        <label>Nej</label>
+                        <input type="radio" asp-for="@Model.Product.Discontinued" value="false" checked />
+                    }
+
+                </div>
+            </div>
+
+
+
+            <input hidden asp-for="@Model.Product.ProductId" />
+
+            <br />
+
+            <input class="btn btn-secondary btn-sm" type="submit" value="Update" />
+        </form>
+
     </div>
-
-
-
-    <select asp-for="@Model.Product.CategoryId">
-        <option></option>
-
-        @foreach (var category in Model.ListCategories)
-        {
-            if (Model.SelectedCategory.CategoryId.Equals(category.CategoryId))
-            {
-                <option selected="selected" value="@category.CategoryId">@category.CategoryName</option>
-            }
-            else
-            {
-                <option value="@category.CategoryId">@category.CategoryName</option>
-            }
-        }
-    </select>
-    <br />
-    <br />
-
-
-
-    <select asp-for="@Model.Product.SupplierId">
-
-        <option></option>
-        @foreach (var supplier in Model.ListSuppliers)
-        {
-            if (Model.SelectedSupplier.SupplierId.Equals(supplier.SupplierId))
-            {
-                <option selected="selected" value="@supplier.SupplierId">@supplier.CompanyName</option>
-            }
-            else
-            {
-                <option value="@supplier.SupplierId">@supplier.CompanyName</option>
-            }
-        }
-    </select>
-    <br />
-    <br />
-
-
-    <input hidden asp-for="@Model.Product.ProductId" />
-
-    <input class="btn btn-secondary btn-sm" type="submit" value="Update" />
-</form>
+</section>

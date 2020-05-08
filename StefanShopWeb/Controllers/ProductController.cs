@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StefanShopWeb.Data;
 using StefanShopWeb.Models;
 using StefanShopWeb.ViewModels;
@@ -74,6 +75,7 @@ namespace StefanShopWeb.Controllers
                 product.UnitsOnOrder = products.Product.UnitsOnOrder;
                 product.ReorderLevel = products.Product.ReorderLevel;
                 product.Discontinued = products.Product.Discontinued;
+                product.FirstSalesDate = products.Product.FirstSalesDate;
 
 
 
@@ -109,6 +111,8 @@ namespace StefanShopWeb.Controllers
             product.UnitsOnOrder = model.ProductNew.UnitsOnOrder;
             product.ReorderLevel = model.ProductNew.ReorderLevel;
             product.Discontinued = model.ProductNew.Discontinued;
+            product.FirstSalesDate = model.Product.FirstSalesDate;
+
 
             dbContext.Products.Add(product);
             dbContext.SaveChanges();
@@ -134,7 +138,6 @@ namespace StefanShopWeb.Controllers
         
         public IActionResult CategoryProducts(int id, string sortcolumn, string sortorder)
         {
-
             var viewModel = new AdminCategoryProductsViewModel();
             viewModel.categoryId = id;
             viewModel = SetProductListProperties(viewModel);
@@ -143,8 +146,8 @@ namespace StefanShopWeb.Controllers
             {
                 ProdName = o.ProductName,
                 ProdPrice = o.UnitPrice,
-                ProdDate = o.FirstSalesDate
-            });
+                ProdDate = o.FirstSalesDate,
+            }) ;
 
             if (string.IsNullOrEmpty(sortorder))
                 sortorder = "asc";
@@ -205,10 +208,18 @@ namespace StefanShopWeb.Controllers
 
         public AdminCategoryProductsViewModel SetProductListProperties(AdminCategoryProductsViewModel viewModel)
         {
-            viewModel.cats = dbContext.Categories.SingleOrDefault(c => c.CategoryId == viewModel.categoryId);
-            var products = dbContext.Products.Where(p => p.CategoryId == viewModel.categoryId).AsQueryable();
+            var userId = _userManager.GetUserId(HttpContext.User);
 
-            products = viewModel.pagingViewModel.SetPaging(viewModel.pagingViewModel.Page, viewModel.pagingViewModel.PageSize, products).Cast<Products>();
+            viewModel.cats = dbContext.Categories.SingleOrDefault(c => c.CategoryId == viewModel.categoryId);
+            var products = dbContext.Products.Where(p => p.CategoryId == viewModel.categoryId).Select(n => 
+                new AdminCategoryProductsViewModel.CategoryProductsViewModel { ProductId = n.ProductId, 
+                                                                               ProductName = n.ProductName, 
+                                                                               UnitPrice = n.UnitPrice, 
+                                                                               UnitsInStock = n.UnitsInStock,  
+                                                                               UnitsOnOrder = n.UnitsOnOrder, 
+                                                                               IsWhished = dbContext.Wishinglist.Where(w => w.ProductId == n.ProductId && w.UserId == userId).Any()}).AsQueryable();
+
+            products = viewModel.pagingViewModel.SetPaging(viewModel.pagingViewModel.Page, viewModel.pagingViewModel.PageSize, products).Cast<AdminCategoryProductsViewModel.CategoryProductsViewModel>();
             products.OrderBy(q => q.ProductName);
             viewModel.prodList = products.ToList();
             //viewModel.prods = products.ToList();
@@ -246,15 +257,17 @@ namespace StefanShopWeb.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (wishlistid == 0)
             {
-                var wish = new Wishinglist { ProductID = productid, UserId = user.Id };
-                dbContext.Wishinglist.Add(wish);
+                var wish = new Wishinglist { ProductId = productid, UserId = user.Id };
+                await dbContext.Wishinglist.AddAsync(wish);
+                
             }
             else
             {
-                var wish = dbContext.Wishinglist.FirstOrDefault(w => w.Id == wishlistid);
+                var wish = dbContext.Wishinglist.FirstOrDefault(w => w.ProductId == productid && w.UserId == user.Id);
                 dbContext.Wishinglist.Remove(wish);
+                dbContext.SaveChanges();
             }
-            dbContext.SaveChanges();
+            //
 
             return View();
         }

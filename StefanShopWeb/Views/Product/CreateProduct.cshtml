@@ -1,6 +1,7 @@
 ﻿
 @model StefanShopWeb.ViewModels.NewProductViewModel
 
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
@@ -8,93 +9,117 @@
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
 
 
-<h1 class="font-italic font-weight-bold mb-5">Ny Produkt</h1>
+@*<h1 class="font-italic font-weight-bold mb-5">Ny Produkt</h1>*@
 
-<form method="post" asp-action="CreateProduct" asp-controller="Product">
-    <div class="form-group">
-        <label class="font-weight-bold" asp-for="ProductNew.ProductName">Name</label>
-        <input class="form-control" asp-for="ProductNew.ProductName" placeholder="Name" />
-        <span asp-validation-for="ProductNew.ProductName" style="color: red;"></span>
+
+
+<section class="testimonials text-center bg-light">
+    <div class="container">
+
+
+        <h1 class="font-italic font-weight-bold mb-5">New Product</h1>
+
+        <form method="post" asp-action="CreateProduct" asp-controller="Product">
+
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.ProductName">Name</label>
+                    <input asp-for="ProductNew.ProductName" class="form-control" id="inputEmail4" placeholder="Name" />
+                    <span asp-validation-for="ProductNew.ProductName" style="color: red;"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.UnitPrice">Price</label>
+                    <input asp-for="ProductNew.UnitPrice" class="form-control" id="inputEmail4" placeholder="UnitPrice" />
+                    <span asp-validation-for="ProductNew.UnitPrice" style="color: red;"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4">First Sales Date</label>
+                    <input asp-for="ProductNew.FirstSalesDate" type="date" class="form-control" id="inputEmail4" placeholder="Enter date">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.QuantityPerUnit">QuantityPerUnit</label>
+                    <input asp-for="ProductNew.QuantityPerUnit" class="form-control" id="inputEmail4" placeholder="QuantityPerUnit" />
+                    <span asp-validation-for="ProductNew.QuantityPerUnit" style="color: red;"></span>
+                </div>
+
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.UnitsOnOrder">UnitsOnOrder</label>
+                    <input asp-for="ProductNew.UnitsOnOrder" class="form-control" id="inputEmail4" placeholder="UnitsOnOrder" />
+                    <span asp-validation-for="ProductNew.UnitsOnOrder" style="color: red;"></span>
+                </div>
+
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.ReorderLevel">ReorderLevel</label>
+                    <input asp-for="ProductNew.ReorderLevel" class="form-control" id="inputEmail4" placeholder="ReorderLevel" />
+                    <span asp-validation-for="ProductNew.ReorderLevel" style="color: red;"></span>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.CategoryId">Category</label>
+                    <select asp-for="ProductNew.CategoryId" id="inputState" class="form-control">
+                        <option></option>
+
+                        @foreach (var category in Model.ListCategories)
+                        {
+                            <option value="@category.CategoryId">@category.CategoryName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ProductNew.CategoryId" style="color: red;"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.SupplierId">Supplier</label>
+                    <select asp-for="ProductNew.SupplierId" id="inputState" class="form-control">
+                        <option></option>
+
+                        @foreach (var supplier in Model.ListSuppliers)
+                        {
+                            <option value="@supplier.SupplierId">@supplier.CompanyName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ProductNew.SupplierId" style="color: red;"></span>
+                </div>
+            </div>
+
+            
+
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.UnitsInStock">UnitsInStock</label>
+                    <input asp-for="ProductNew.UnitsInStock" class="form-control" id="inputEmail4" placeholder="UnitsInStock" />
+                    <span asp-validation-for="ProductNew.UnitsInStock" style="color: red;"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="font-weight-bold" for="inputEmail4" asp-for="ProductNew.Discontinued"><span class="input-required">*</span>Discontinued</label>   <br />
+                    <input type="radio" asp-for="ProductNew.Discontinued" value="true" />Ja<br />
+                    <input type="radio" asp-for="ProductNew.Discontinued" value="false" /> nej<br />
+                    <span  asp-validation-for="ProductNew.Discontinued" style="color: red;"></span>
+                </div>
+            </div>
+
+
+
+
+
+            <br />
+
+            <input class="btn btn-secondary btn-sm" type="submit" value="Submit" />
+        </form>
+
     </div>
-
-    <div class="form-group">
-        <label class="font-weight-bold" asp-for="ProductNew.UnitPrice">Price</label>
-        <input class="form-control" asp-for="ProductNew.UnitPrice" placeholder="UnitPrice" />
-        <span asp-validation-for="ProductNew.UnitPrice" style="color: red;"></span>
-    </div>
-
-    <div class="form-group">
-        <label class="font-weight-bold" asp-for="ProductNew.QuantityPerUnit">QuantityPerUnit</label>
-        <input class="form-control" asp-for="ProductNew.QuantityPerUnit" placeholder="QuantityPerUnit" />
-        <span asp-validation-for="ProductNew.QuantityPerUnit" style="color: red;"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label class="font-weight-bold" asp-for="ProductNew.UnitsInStock">UnitsInStock</label>
-        <input class="form-control" asp-for="ProductNew.UnitsInStock" placeholder="UnitsInStock" />
-        <span asp-validation-for="ProductNew.UnitsInStock" style="color: red;"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label class="font-weight-bold" asp-for="ProductNew.UnitsOnOrder">UnitsOnOrder</label>
-        <input class="form-control" asp-for="ProductNew.UnitsOnOrder" placeholder="UnitsOnOrder" />
-        <span asp-validation-for="ProductNew.UnitsOnOrder" style="color: red;"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label class="font-weight-bold" asp-for="ProductNew.ReorderLevel">ReorderLevel</label>
-        <input class="form-control" asp-for="ProductNew.ReorderLevel" placeholder="ReorderLevel" />
-        <span asp-validation-for="ProductNew.ReorderLevel" style="color: red;"></span>
-    </div>
-
-    @*<div class="form-group">
-            <label class="font-weight-bold" asp-for="ProductNew.Discontinued">Discontinued</label>
-            <input class="form-control" asp-for="ProductNew.Discontinued" placeholder="Discontinued" />
-            <span asp-validation-for="ProductNew.Discontinued" style="color: red;"></span>
-        </div>*@
-
-    <div class="form-group">
-        <label class="font-weight-bold" asp-for="ProductNew.Discontinued"><span class="input-required">*</span>Discontinued</label>   <br />
-        <input type="radio" asp-for="ProductNew.Discontinued" value="true" />Ja<br />
-        <input type="radio" asp-for="ProductNew.Discontinued" value="false" /> nej<br />
-        <span class="font-weight-bold" asp-validation-for="ProductNew.Discontinued" style="color: red;"></span>
-    </div>
-
-    <div class="form-group">
-
-        <label class="font-weight-bold" asp-for="ProductNew.CategoryId">Category</label>
-        <select asp-for="ProductNew.CategoryId">
-            <option></option>
-
-            @foreach (var category in Model.ListCategories)
-            {
-                <option value="@category.CategoryId">@category.CategoryName</option>
-            }
-        </select>
-        <span asp-validation-for="ProductNew.CategoryId" style="color: red;"></span>
-    </div>
-
-    <div class="form-group">
-
-        <label class="font-weight-bold" asp-for="ProductNew.SupplierId">Supplier</label>
-        <select asp-for="ProductNew.SupplierId">
-            <option></option>
-
-            @foreach (var supplier in Model.ListSuppliers)
-            {
-                <option value="@supplier.SupplierId">@supplier.CompanyName</option>
-            }
-        </select>
-        <span asp-validation-for="ProductNew.SupplierId" style="color: red;"></span>
-    </div>
-
-
-
-
-    <br />
-
-    <input class="btn btn-secondary btn-sm" type="submit" value="Submit" />
-</form>
+</section>

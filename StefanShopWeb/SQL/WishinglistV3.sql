@@ -18,10 +18,10 @@ CREATE TABLE [dbo].[Wishinglist](
 ) ON [PRIMARY]
 
 
-ALTER TABLE [dbo].[Wishinglist]  WITH CHECK ADD  CONSTRAINT [FK_Wishinglist_AspNetRoles] FOREIGN KEY([UserId])
-REFERENCES [dbo].[AspNetRoles] ([Id])
+ALTER TABLE [dbo].[Wishinglist]  WITH CHECK ADD  CONSTRAINT [FK_Wishinglist_AspNetUsers] FOREIGN KEY([UserId])
+REFERENCES [dbo].[AspNetUsers] ([Id])
 
-ALTER TABLE [dbo].[Wishinglist] CHECK CONSTRAINT [FK_Wishinglist_AspNetRoles]
+ALTER TABLE [dbo].[Wishinglist] CHECK CONSTRAINT [FK_Wishinglist_AspNetUsers]
 
 
 ALTER TABLE [dbo].[Wishinglist]  WITH CHECK ADD  CONSTRAINT [FK_Wishinglist_Products] FOREIGN KEY([ProductID])
