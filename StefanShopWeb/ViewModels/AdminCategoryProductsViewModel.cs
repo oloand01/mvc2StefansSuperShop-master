@@ -8,7 +8,7 @@ namespace StefanShopWeb.ViewModels
 {
     public class AdminCategoryProductsViewModel
     {
-        public IEnumerable<Products> prodList { get; set; }
+        public IEnumerable<CategoryProductsViewModel> prodList { get; set; }
         public Categories cats { get; set; }
         public PagingViewModel pagingViewModel { get; set; }
         public Products prods { get; set; }
@@ -23,12 +23,11 @@ namespace StefanShopWeb.ViewModels
             public string ProdName { get; set; }
             public DateTime? ProdDate { get; set; }
             public decimal? ProdPrice { get; set; }
-            public bool? IsWishListed { get; set; }
         }
 
         public AdminCategoryProductsViewModel()
         {
-            prodList = new List<Products>();
+            prodList = new List<CategoryProductsViewModel>();
             prods = new Products();
             cats = new Categories();
             pagingViewModel = new PagingViewModel();
@@ -36,9 +35,13 @@ namespace StefanShopWeb.ViewModels
 
         public class CategoryProductsViewModel
         {
-            public int ProdId { get; set; }
-            public string ProdName { get; set; }
-            public decimal? ProdPrice { get; set; }
+            public int ProductId { get; set; }
+            public string ProductName { get; set; }
+            public decimal? UnitPrice { get; set; }
+
+            public short? UnitsInStock { get; set; }
+            public short? UnitsOnOrder { get; set; }
+            public bool IsWhished { get; set; }
         }
 
         //public class CategoryProductsListViewModel

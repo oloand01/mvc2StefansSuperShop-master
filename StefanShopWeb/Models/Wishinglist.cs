@@ -9,12 +9,10 @@ namespace StefanShopWeb.Models
 {
     public partial class Wishinglist
     {
-        [Key]
-        [Column("Id")]
         public int Id { get; set; }
-        [Column("UserId")]
         public string UserId { get; set; }
-        [Column("ProductID")]
-        public int ProductID { get; set; }
+        public int ProductId { get; set; }
+
+        public virtual Products Product { get; set; }
     }
 }
