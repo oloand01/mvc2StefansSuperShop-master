@@ -277,8 +277,9 @@ namespace StefanShopWeb.Controllers
             {
                 var wish = dbContext.Wishinglist.FirstOrDefault(w => w.ProductId == productid && w.UserId == user.Id);
                 dbContext.Wishinglist.Remove(wish);
-                dbContext.SaveChanges();
+                
             }
+            dbContext.SaveChanges();
             //
 
             return View();
