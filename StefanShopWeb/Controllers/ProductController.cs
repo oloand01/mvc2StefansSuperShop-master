@@ -271,18 +271,17 @@ namespace StefanShopWeb.Controllers
             {
                 var wish = new Wishinglist { ProductId = productid, UserId = user.Id };
                 await dbContext.Wishinglist.AddAsync(wish);
-                
+                dbContext.SaveChanges();
+                return View("HeartViewComponent", wish);
             }
             else
             {
                 var wish = dbContext.Wishinglist.FirstOrDefault(w => w.ProductId == productid && w.UserId == user.Id);
                 dbContext.Wishinglist.Remove(wish);
-                
-            }
-            dbContext.SaveChanges();
+                dbContext.SaveChanges();
+            }         
             //
-
-            return View();
+            return View("HeartViewComponent");
         }
 
     }
