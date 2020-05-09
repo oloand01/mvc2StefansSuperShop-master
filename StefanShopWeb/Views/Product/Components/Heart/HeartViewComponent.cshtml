@@ -6,7 +6,7 @@
 {
     <div class="product-btns" id="div@(Model.ProductId)">
         <form id="form@(Model.ProductId)" asp-action="AddToWishlist" asp-controller="Product" asp-route-wishlistid="@Model.Id" asp-route-productid="@Model.ProductId"
-              data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#prodButtons">
+              data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#viewIcon">
             @*<button type="submit" class="add-to-wishlist" id="b@(Model.ProductId)">
                 @if (Model.Id != 0)
                 {
@@ -46,5 +46,6 @@ $('#button@(Model.ProductId)').click(function(e){
         $(this).find('span').html("remove from wishlist");
     }
     $(form@(Model.ProductId)).submit();
+    $("#wishIcon").load(location.href + " #wishIcon");
 });
 </script>
