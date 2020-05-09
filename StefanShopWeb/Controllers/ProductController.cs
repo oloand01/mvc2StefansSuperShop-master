@@ -143,20 +143,21 @@ namespace StefanShopWeb.Controllers
             viewModel.categoryId = id;
             viewModel = SetProductListProperties(viewModel);
 
-            var items = dbContext.Products.Where(p => p.ProductId == id).Select(o => new AdminCategoryProductsViewModel.CategoryProductsListViewModel
-            {
-                ProdName = o.ProductName,
-                ProdPrice = o.UnitPrice,
-                ProdDate = o.FirstSalesDate,
-            }) ;
+            //var items = dbContext.Products.Where(p => p.ProductId == id).Select(o => new AdminCategoryProductsViewModel.CategoryProductsListViewModel
+            //{
+            //    ProdName = o.ProductName,
+            //    ProdPrice = o.UnitPrice,
+            //    ProdDate = o.FirstSalesDate,
+            //});
 
-            if (string.IsNullOrEmpty(sortorder))
-                sortorder = "asc";
+            //if (string.IsNullOrEmpty(sortorder))
+            //    sortorder = "asc";
 
-            items = AddSorting(items, ref sortcolumn, ref sortorder);
-            viewModel.Items = items.ToList();
-            viewModel.SortColumn = sortcolumn;
-            viewModel.SortOrder = sortorder;
+            //items = AddSorting(items, ref sortcolumn, ref sortorder);
+
+            //viewModel.Items = items.ToList();
+            //viewModel.SortColumn = sortcolumn;
+            //viewModel.SortOrder = sortorder;
 
             return View("CategoryProductsParent", viewModel);
         }
@@ -212,8 +213,14 @@ namespace StefanShopWeb.Controllers
             var userId = _userManager.GetUserId(HttpContext.User);
 
             viewModel.cats = dbContext.Categories.SingleOrDefault(c => c.CategoryId == viewModel.categoryId);
-            var products = dbContext.Products.Where(p => p.CategoryId == viewModel.categoryId).Select(n => 
-                new AdminCategoryProductsViewModel.CategoryProductsViewModel { ProductId = n.ProductId, 
+
+
+            //var products = dbContext.Products.Where(p => p.CategoryId == viewModel.categoryId).Select(n => 
+            
+            var products = dbContext.Products.Where(p => p.CategoryId == viewModel.categoryId && p.Discontinued == false).Select(n => 
+            //                                                                                ^........................^
+            //                                                                                Gjorde ett tillägg som automatiskt filtrerar bort avslutade produkter.
+            new AdminCategoryProductsViewModel.CategoryProductsViewModel { ProductId = n.ProductId, 
                                                                                ProductName = n.ProductName, 
                                                                                UnitPrice = n.UnitPrice, 
                                                                                UnitsInStock = n.UnitsInStock,  
