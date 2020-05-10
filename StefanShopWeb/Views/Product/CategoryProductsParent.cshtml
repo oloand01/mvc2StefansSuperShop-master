@@ -1,4 +1,20 @@
 ﻿@model StefanShopWeb.ViewModels.AdminCategoryProductsViewModel
+
+@*@{
+    SetSortingOption();
+
+    int SetSortingOption()
+    {
+        int selectedSortingOption;
+
+        if (Model.SelectedSortingOption == 0)
+            selectedSortingOption = 1;
+        else
+            selectedSortingOption = Model.SelectedSortingOption;
+
+        return selectedSortingOption;
+    }
+}*@
     <div>
         <form id="pagingResultsOptionsForm" class="form-inline"
               asp-area=""
@@ -10,8 +26,11 @@
               data-ajax-mode="replace"
               data-ajax-update="#PagingResult">
             <select asp-for=@Model.pagingViewModel.PageSize onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.pagingViewModel.PageSizeOptions"></select>
+
+            @*<select asp-for="@Model.SelectedTitleSortingOption" onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.TitleSortingOptions"></select>*@
+            <select asp-for="@Model.SelectedPriceSortingOption" onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.PriceSortingOptions"></select>
         </form>
-            <div id="PagingResult">
-                <partial name="PagerAndTablePartial" for="@Model" />
-            </div>
+        <div id="PagingResult">
+            <partial name="PagerAndTablePartial" for="@Model" />
+        </div>
     </div>
