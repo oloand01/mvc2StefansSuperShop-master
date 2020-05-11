@@ -3,7 +3,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-@{
+@*@{
     ViewData["Title"] = "CategoryProducts";
 
     string GetClickSortOrder(string columnName)
@@ -31,7 +31,8 @@
         }
         <i class="fa fa-fw fa-sort-@Model.SortOrder"></i>
     }
-}
+}*@
+
 <div class="text-center">
     <h1>@Model.cats.CategoryName</h1>
 
@@ -39,9 +40,9 @@
         <div class="products-tabs">
             <div class="container-fluid mt-4">
 
-                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Name', '@GetClickSortOrder("Name")')">Id @{ RenderSortIcon("Name");}</a>
+                @*<a href="#" onclick="window.location.href=setSort(window.location.href, 'Name', '@GetClickSortOrder("Name")')">Id @{ RenderSortIcon("Name");}</a>
                 <a href="#" onclick="window.location.href=setSort(window.location.href, 'Price', '@GetClickSortOrder("Price")')">Title @{ RenderSortIcon("Price"); }</a>
-                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Date', '@GetClickSortOrder("Date")')">Released @{ RenderSortIcon("Date"); }</a>
+                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Date', '@GetClickSortOrder("Date")')">Released @{ RenderSortIcon("Date"); }</a>*@
 
                 <!-- product -->
                 @foreach (var item in Model.prodList)
