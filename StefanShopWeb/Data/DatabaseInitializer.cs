@@ -12,14 +12,14 @@ namespace StefanShopWeb.Data
     {
         public void Initialize(ApplicationDbContext context)
         {
-            context.Database.EnsureCreated();
             context.Database.Migrate();
+            context.Database.EnsureCreated();
             SeedData(context);
         }
 
         private void SeedData(ApplicationDbContext context)
         {
-            if (context.Categories.Any(m => m.PictureName == null))
+            if (context.Categories.Any(m => m.CategoryId == 1))
                 context.Categories.Update(new Categories
                 {
                     CategoryId = 1,
@@ -27,7 +27,8 @@ namespace StefanShopWeb.Data
                     CategoryName = "Beverages",
                     PictureName = "beverages2_e6d2.png"
                 });
-            if (context.Categories.Any(m => m.PictureName == null))
+
+            if (context.Categories.Any(m => m.CategoryId == 2))
                 context.Categories.Update(new Categories
                 {
                     CategoryId = 2,
@@ -35,7 +36,8 @@ namespace StefanShopWeb.Data
                     CategoryName = "Condiments",
                     PictureName = "condiments.jpg" 
                 });
-            if (context.Categories.Any(m => m.PictureName == null))
+
+            if (context.Categories.Any(m => m.CategoryId == 3))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 3,
@@ -43,7 +45,8 @@ namespace StefanShopWeb.Data
                     CategoryName = "Confections",
                     PictureName = "confectionsfinal.jpg" 
                 });
-            if (context.Categories.Any(m => m.PictureName == null))
+
+            if (context.Categories.Any(m => m.CategoryId == 4))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 4,
@@ -51,7 +54,8 @@ namespace StefanShopWeb.Data
                     CategoryName = "Dairy Products",
                     PictureName = "dairyproducts.jpg" 
                 });
-            if (context.Categories.Any(m => m.PictureName == null))
+
+            if (context.Categories.Any(m => m.CategoryId == 5))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 5,
@@ -59,7 +63,8 @@ namespace StefanShopWeb.Data
                     CategoryName = "Grains/Cereals",
                     PictureName = "grainproducts.jpg" 
                 });
-            if (context.Categories.Any(m => m.PictureName == null))
+
+            if (context.Categories.Any(m => m.CategoryId == 6))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 6,
@@ -67,7 +72,8 @@ namespace StefanShopWeb.Data
                     CategoryName = "Meat/Poultry",
                     PictureName = "meatproducts.png" 
                 });
-            if (context.Categories.Any(m => m.PictureName == null))
+
+            if (context.Categories.Any(m => m.CategoryId == 7))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 7,
@@ -75,7 +81,8 @@ namespace StefanShopWeb.Data
                     CategoryName = "Produce",
                     PictureName = "produce.jpg" 
                 });
-            if (context.Categories.Any(m => m.PictureName == null))
+
+            if (context.Categories.Any(m => m.CategoryId == 8))
                 context.Categories.Update(new Categories 
                 {
                     CategoryId = 8,
@@ -84,7 +91,6 @@ namespace StefanShopWeb.Data
                     PictureName = "seafoodproducts.jpg" 
                 });
 
-            
             context.SaveChanges();
         }
     }
