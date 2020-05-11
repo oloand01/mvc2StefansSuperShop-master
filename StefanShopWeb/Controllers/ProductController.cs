@@ -240,7 +240,6 @@ namespace StefanShopWeb.Controllers
 
             model.WishProducts = dbContext.Wishinglist
                 .Where(u => u.UserId == user.Id)
-                .Where(p => p.Product.ProductId==p.ProductId)
                 .Select(r => new Wishinglist 
                 { 
                     Product=r.Product,
