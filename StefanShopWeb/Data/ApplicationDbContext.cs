@@ -34,5 +34,7 @@ namespace StefanShopWeb.Data
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<NewsletterSubscriptions> NewsletterSubscriptions { get; set; }
         public virtual DbSet<Newsletter> Newsletters { get; set; }
+        public virtual DbSet<Wishinglist> Wishinglist { get; set; }
     }
+
 }

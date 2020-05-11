@@ -1,6 +1,9 @@
 ﻿@model StefanShopWeb.ViewModels.AdminCategoryProductsViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-@{
+@*@{
     ViewData["Title"] = "CategoryProducts";
 
     string GetClickSortOrder(string columnName)
@@ -28,7 +31,8 @@
         }
         <i class="fa fa-fw fa-sort-@Model.SortOrder"></i>
     }
-}
+}*@
+
 <div class="text-center">
     <h1>@Model.cats.CategoryName</h1>
 
@@ -36,9 +40,9 @@
         <div class="products-tabs">
             <div class="container-fluid mt-4">
 
-                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Name', '@GetClickSortOrder("Name")')">Id @{ RenderSortIcon("Name");}</a>
+                @*<a href="#" onclick="window.location.href=setSort(window.location.href, 'Name', '@GetClickSortOrder("Name")')">Id @{ RenderSortIcon("Name");}</a>
                 <a href="#" onclick="window.location.href=setSort(window.location.href, 'Price', '@GetClickSortOrder("Price")')">Title @{ RenderSortIcon("Price"); }</a>
-                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Date', '@GetClickSortOrder("Date")')">Released @{ RenderSortIcon("Date"); }</a>
+                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Date', '@GetClickSortOrder("Date")')">Released @{ RenderSortIcon("Date"); }</a>*@
 
                 <!-- product -->
                 @foreach (var item in Model.prodList)
@@ -101,18 +105,13 @@
                                 <p>Units on order: @item.UnitsOnOrder</p>
                             </div>
 
-
+                            @await Component.InvokeAsync("Heart", new { userId = UserManager.GetUserId(User), productId = item.ProductId });
                             @*--------*@
 
-                            @*<div class="product-btns">
-                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                    </div>*@
                         </div>
                         @*<div class="add-to-cart">
-                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                </div>*@
+                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>*@
                     </div>
                 }
                 <!-- /product -->

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -68,12 +70,8 @@
                     <div class="col-md-3 clearfix">
                         <div class="header-ctn">
                             <!-- Wishlist -->
-                            <div>
-                                <a href="#">
-                                    <i class="fa fa-heart-o"></i>
-                                    <span>Your Wishlist</span>
-                                    <div class="qty">2</div>
-                                </a>
+                            <div id="wishIcon">
+                                @await Component.InvokeAsync("WishIcon", new { userId = UserManager.GetUserId(User) })
                             </div>
                             <!-- /Wishlist -->
                             <!-- Cart -->
@@ -126,15 +124,15 @@
                                 </a>
                             </div>
                             <!-- /Menu Toogle -->
+
                         </div>
+                        <!-- /ACCOUNT -->
                     </div>
-                    <!-- /ACCOUNT -->
+                    <!-- row -->
                 </div>
-                <!-- row -->
+                <!-- container -->
             </div>
-            <!-- container -->
-        </div>
-        <!-- /MAIN HEADER -->
+            <!-- /MAIN HEADER -->
     </header>
     <!-- /HEADER -->
     <!-- NAVIGATION -->
@@ -262,7 +260,7 @@
                             <ul class="footer-links">
                                 <li><a href="#">My Account</a></li>
                                 <li><a href="#">View Cart</a></li>
-                                <li><a href="#">Wishlist</a></li>
+                                <li><a asp-controller="Product" asp-action="GetWishlist">Wishlist</a></li>
                                 <li><a href="#">Track My Order</a></li>
                                 <li><a href="#">Help</a></li>
                             </ul>

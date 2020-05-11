@@ -58,21 +58,21 @@ namespace StefanShopWeb.Controllers
             return View(model);
         }
 
-        public IActionResult EditProduct(int id)
-        {
-            var model = new AdminEditProductViewModel();
-            model.MenuItems = SetupMenu("Products");
-            var prod = dbContext.Products.FirstOrDefault(p => p.ProductId == id);
-            model.ProductId = prod.ProductId;
-            model.ProductName = prod.ProductName;
-            model.SupplierId = prod.SupplierId.Value;
-            model.UnitPrice = prod.UnitPrice.Value;
-            model.CategoryId = prod.CategoryId;
-            model.Discontinued = prod.Discontinued;
-            model.UnitsInStock = prod.UnitsInStock.Value;
+        //public IActionResult EditProduct(int id)
+        //{
+        //    var model = new AdminEditProductViewModel();
+        //    model.MenuItems = SetupMenu("Products");
+        //    var prod = dbContext.Products.FirstOrDefault(p => p.ProductId == id);
+        //    model.ProductId = prod.ProductId;
+        //    model.ProductName = prod.ProductName;
+        //    model.SupplierId = prod.SupplierId.Value;
+        //    model.UnitPrice = prod.UnitPrice.Value;
+        //    model.CategoryId = prod.CategoryId;
+        //    model.Discontinued = prod.Discontinued;
+        //    model.UnitsInStock = prod.UnitsInStock.Value;
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
 
         public IActionResult Categories(string msg="")
