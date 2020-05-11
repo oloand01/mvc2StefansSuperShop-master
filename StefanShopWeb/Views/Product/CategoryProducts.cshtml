@@ -3,7 +3,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-@{
+@*@{
     ViewData["Title"] = "CategoryProducts";
 
     string GetClickSortOrder(string columnName)
@@ -31,7 +31,8 @@
         }
         <i class="fa fa-fw fa-sort-@Model.SortOrder"></i>
     }
-}
+}*@
+
 <div class="text-center">
     <h1>@Model.cats.CategoryName</h1>
 
@@ -39,9 +40,9 @@
         <div class="products-tabs">
             <div class="container-fluid mt-4">
 
-                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Name', '@GetClickSortOrder("Name")')">Id @{ RenderSortIcon("Name");}</a>
+                @*<a href="#" onclick="window.location.href=setSort(window.location.href, 'Name', '@GetClickSortOrder("Name")')">Id @{ RenderSortIcon("Name");}</a>
                 <a href="#" onclick="window.location.href=setSort(window.location.href, 'Price', '@GetClickSortOrder("Price")')">Title @{ RenderSortIcon("Price"); }</a>
-                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Date', '@GetClickSortOrder("Date")')">Released @{ RenderSortIcon("Date"); }</a>
+                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Date', '@GetClickSortOrder("Date")')">Released @{ RenderSortIcon("Date"); }</a>*@
 
                 <!-- product -->
                 @foreach (var item in Model.prodList)
@@ -104,29 +105,9 @@
                                 <p>Units on order: @item.UnitsOnOrder</p>
                             </div>
 
-
+                            @await Component.InvokeAsync("Heart", new { userId = UserManager.GetUserId(User), productId = item.ProductId });
                             @*--------*@
-                            @if (SignInManager.IsSignedIn(User))
-                            {
-                                <div class="product-btns" id="prodButtons">
-                                    <form asp-action="AddToWishlist" asp-controller="Product" asp-route-wishlistid="@(item.IsWhished ? 1 : 0)" asp-route-productid="@item.ProductId"
-                                          data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#prodButtons">
-                                        <button class="add-to-wishlist" type="submit">
-                                            @if (item.IsWhished)
-                                            {
-                                                <i class="fa fa-heart"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="fa fa-heart-o"></i>
-                                            }
-                                            @*<span class="tooltipp">add to wishlist</span>*@
-                                        </button>
-                                    </form>
-                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                </div>
-                            }
+
                         </div>
                         @*<div class="add-to-cart">
                                 <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
