@@ -105,7 +105,7 @@
                                 <p>Units on order: @item.UnitsOnOrder</p>
                             </div>
 
-                            @await Component.InvokeAsync("Heart", new { userId = UserManager.GetUserId(User), productId = item.ProductId });
+                            @await Component.InvokeAsync("Heart", new { userId = UserManager.GetUserId(User), productId = item.ProductId })
                             @*--------*@
 
                         </div>
