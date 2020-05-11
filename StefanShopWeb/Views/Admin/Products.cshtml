@@ -73,7 +73,8 @@
                             @item.Name
                         </th>
                         <th scope="row">
-                            @item.Price
+                            @*@item.Price*@
+                            @String.Format("{0:C}", item.Price)
                         </th>
                         <th scope="row">
                             @item.CategoryName
