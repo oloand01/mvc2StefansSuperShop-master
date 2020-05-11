@@ -13,9 +13,7 @@
                 <li>
                     <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index" title="Admin"><i class="fa fa-user-o"></i> Admin</a>
                 </li>
-                <li>
-                    <a class="nav-link text-dark" asp-controller="Product" asp-action="Index" title="Admin"><i class="fa fa-user-o"></i> Product</a>
-                </li>
+                
             }
             <li class="nav-item">
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -32,9 +30,7 @@
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
             </li>
-            <li>
-                <a class="nav-link text-dark" asp-controller="Product" asp-action="Index" > Product</a>
-            </li>
+            
 
         }
     </ul>
