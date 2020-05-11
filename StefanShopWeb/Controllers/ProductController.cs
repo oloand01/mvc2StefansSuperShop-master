@@ -269,7 +269,7 @@ namespace StefanShopWeb.Controllers
                 var wish = new Wishinglist { ProductId = productid, UserId = user.Id };
                 await dbContext.Wishinglist.AddAsync(wish);
                 dbContext.SaveChanges();
-                return View("HeartViewComponent", wish);
+                return ViewComponent("WishIcon", new { userId = user.Id});
             }
             else
             {
