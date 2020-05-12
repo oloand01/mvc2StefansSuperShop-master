@@ -17,15 +17,10 @@
                 p = Convert.ToInt32(page);
 
                 <li class="@(Model.pagingViewModel.CurrentPage == p ? "active" : "")">
-                    <a asp-area=""
-                       asp-controller="Product"
+                    <a asp-controller="Product"
                        asp-action="GetWishlist"
                        asp-route-Page="@p"
-                       asp-route-PageSize="@Model.pagingViewModel.PageSize"
-                       data-ajax="true"
-                       data-ajax-method="GET"
-                       data-ajax-mode="replace"
-                       data-ajax-update="#WishlistPage">
+                       asp-route-PageSize="@Model.pagingViewModel.PageSize">
                         @p
                     </a>
                 </li>

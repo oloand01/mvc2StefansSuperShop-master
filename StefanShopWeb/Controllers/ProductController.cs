@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using StefanShopWeb.Data;
 using StefanShopWeb.Models;
+using StefanShopWeb.Services;
 using StefanShopWeb.ViewModels;
 
 namespace StefanShopWeb.Controllers
@@ -18,12 +19,13 @@ namespace StefanShopWeb.Controllers
 
         private readonly ApplicationDbContext dbContext;
 
-
+        private readonly IWishlistService _wishlistService;
         private readonly UserManager<IdentityUser> _userManager;
-        public ProductController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public ProductController(ApplicationDbContext context, UserManager<IdentityUser> userManager, IWishlistService wishlistService)
         {
             dbContext = context;
             _userManager = userManager;
+            _wishlistService = wishlistService;
         }
 
         public IActionResult Index()
@@ -236,7 +238,7 @@ namespace StefanShopWeb.Controllers
                 return Challenge();
             }
 
-            viewModel = FetchWishlistItems(viewModel, Page, PageSize, user);
+            viewModel = _wishlistService.FetchWishlistItems(viewModel, Page, PageSize, user);
 
             if (viewModel.WishProducts.Count() == 0)
             {
@@ -244,30 +246,6 @@ namespace StefanShopWeb.Controllers
             }
 
             return View(viewModel);
-        }
-
-        private WishlistViewModel FetchWishlistItems(WishlistViewModel viewModel, int? Page, int? PageSize, IdentityUser user)
-        {
-
-            if (Page != null) viewModel.pagingViewModel.Page = Page.GetValueOrDefault();
-            if (PageSize != null) viewModel.pagingViewModel.PageSize = PageSize.GetValueOrDefault();
-
-            viewModel.WishProducts = dbContext.Wishinglist
-                .Where(u => u.UserId == user.Id)
-                .Select(r => new Wishinglist
-                {
-                    Product = r.Product,
-                    ProductId = r.ProductId,
-                    UserId = r.UserId
-                })
-                .ToList();
-
-            viewModel.WishProducts = viewModel.pagingViewModel
-                .SetPaging(viewModel.pagingViewModel.Page, viewModel.pagingViewModel.PageSize, viewModel.WishProducts.AsQueryable())
-                .Cast<Wishinglist>()
-                .ToList();
-
-            return viewModel;
         }
 
         [Authorize]
