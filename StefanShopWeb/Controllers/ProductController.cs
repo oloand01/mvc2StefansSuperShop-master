@@ -263,13 +263,13 @@ namespace StefanShopWeb.Controllers
         public async Task<IActionResult> AddToWishlist(int wishlistid, int productid)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (wishlistid == 0)
-            {
-                var wish = new Wishinglist { ProductId = productid, UserId = user.Id };
-                await dbContext.Wishinglist.AddAsync(wish);
-                dbContext.SaveChanges();
-                return ViewComponent("WishIcon", new { userId = user.Id});
-            }
+
+            if (!await dbContext.Wishinglist.AnyAsync(w => w.ProductId == productid && w.UserId == _userManager.GetUserId(HttpContext.User)))
+                {
+                    var wish = new Wishinglist { ProductId = productid, UserId = user.Id };
+                    await dbContext.Wishinglist.AddAsync(wish);
+                    dbContext.SaveChanges();
+                }
             else
             {
                 var wish = dbContext.Wishinglist.FirstOrDefault(w => w.ProductId == productid && w.UserId == user.Id);
@@ -277,7 +277,7 @@ namespace StefanShopWeb.Controllers
                 dbContext.SaveChanges();
             }         
             //
-            return View("HeartViewComponent");
+            return ViewComponent("WishIcon", new { userId = user.Id });
         }
 
     }
