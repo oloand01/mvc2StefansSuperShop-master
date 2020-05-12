@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace StefanShopWeb.Components
 {
@@ -17,7 +18,7 @@ namespace StefanShopWeb.Components
         }
         public async Task<IViewComponentResult> InvokeAsync(string userId, int productId)
         {
-            var wish = _context.Wishinglist.FirstOrDefault(w => w.UserId == userId && w.ProductId == productId);
+            var wish = await _context.Wishinglist.FirstOrDefaultAsync(w => w.UserId == userId && w.ProductId == productId);
             if(Object.ReferenceEquals(wish, null))
             {
                 wish = new Wishinglist { ProductId = productId };
