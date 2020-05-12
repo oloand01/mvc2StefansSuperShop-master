@@ -224,10 +224,8 @@ namespace StefanShopWeb.Controllers
             return viewModel;
         }
         [Authorize]
-        public async Task<IActionResult> GetWishlist( )
+        public async Task<IActionResult> GetWishlist(WishlistViewModel viewModel, int? Page, int? PageSize)
         {
-            var model = new WishlistViewModel();
-
             if (User.Identity.Name == null)
             {
                 return View("~/Identity/Account/Login.cshtml");
@@ -238,28 +236,46 @@ namespace StefanShopWeb.Controllers
                 return Challenge();
             }
 
-            model.WishProducts = dbContext.Wishinglist
+            viewModel = FetchWishlistItems(viewModel, Page, PageSize, user);
+
+            if (viewModel.WishProducts.Count() == 0)
+            {
+                return RedirectToAction("EmptyWishlist");
+            }
+
+            return View(viewModel);
+        }
+
+        private WishlistViewModel FetchWishlistItems(WishlistViewModel viewModel, int? Page, int? PageSize, IdentityUser user)
+        {
+
+            if (Page != null) viewModel.pagingViewModel.Page = Page.GetValueOrDefault();
+            if (PageSize != null) viewModel.pagingViewModel.PageSize = PageSize.GetValueOrDefault();
+
+            viewModel.WishProducts = dbContext.Wishinglist
                 .Where(u => u.UserId == user.Id)
-                .Select(r => new Wishinglist 
-                { 
-                    Product=r.Product,
-                    ProductId=r.ProductId,
+                .Select(r => new Wishinglist
+                {
+                    Product = r.Product,
+                    ProductId = r.ProductId,
                     UserId = r.UserId
                 })
                 .ToList();
 
-            if (model.WishProducts.Count() == 0)
-            {
-                 return RedirectToAction("EmptyWishlist");
-            }
+            viewModel.WishProducts = viewModel.pagingViewModel
+                .SetPaging(viewModel.pagingViewModel.Page, viewModel.pagingViewModel.PageSize, viewModel.WishProducts.AsQueryable())
+                .Cast<Wishinglist>()
+                .ToList();
 
-            return View(model);
+            return viewModel;
         }
+
         [Authorize]
         public IActionResult EmptyWishlist()
         {
             return View();
         }
+
         public async Task<IActionResult> AddToWishlist(int wishlistid, int productid)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
