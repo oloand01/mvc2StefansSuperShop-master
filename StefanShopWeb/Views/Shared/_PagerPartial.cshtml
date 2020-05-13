@@ -22,8 +22,6 @@
                        asp-controller="Product"
                        asp-action="ProductPagingResult"
                        asp-route-categoryId=@Model.categoryId
-                       asp-route-lastSelectedTitleSortingOption=@Model.LastSelectedTitleSortingOption
-                       asp-route-lastSelectedPriceSortingOption=@Model.LastSelectedPriceSortingOption
                        asp-route-Page="@p"
                        asp-route-PageSize="@Model.pagingViewModel.PageSize"
                        data-ajax="true"

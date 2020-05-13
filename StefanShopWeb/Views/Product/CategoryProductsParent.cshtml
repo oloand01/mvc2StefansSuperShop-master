@@ -26,9 +26,9 @@
               data-ajax-mode="replace"
               data-ajax-update="#PagingResult">
             @*<select asp-for=@Model.pagingViewModel.PageSize onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.pagingViewModel.PageSizeOptions"></select>*@
-
-            @*<select asp-for="@Model.SelectedTitleSortingOption" onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.TitleSortingOptions"></select>*@
-            <select asp-for="@Model.SelectedPriceSortingOption" onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.PriceSortingOptions"></select>
+            <select asp-for="@Model.SelectedSortingOption" onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.SortingOptions"></select>
+            @*<select asp-for="@Model.SelectedSortingOption" onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.TitleSortingOptions"></select>
+            <select asp-for="@Model.SelectedSortingOption" onchange='$("#pagingResultsOptionsForm").submit()' class="form-control" asp-items="@Model.PriceSortingOptions"></select>*@
         </form>
         <div id="PagingResult">
             <partial name="PagerAndTablePartial" for="@Model" />

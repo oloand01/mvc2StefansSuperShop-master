@@ -169,46 +169,45 @@ namespace StefanShopWeb.Controllers
                                                                                UnitPrice = n.UnitPrice, 
                                                                                UnitsInStock = n.UnitsInStock,  
                                                                                UnitsOnOrder = n.UnitsOnOrder, 
+                                                                               FirstSalesDate = n.FirstSalesDate,
                                                                                IsWhished = dbContext.Wishinglist.Where(w => w.ProductId == n.ProductId && w.UserId == userId).Any()}).AsQueryable();
 
 
-            // Titel
-            //if (viewModel.SelectedTitleSortingOption == 0 && viewModel.LastSelectedTitleSortingOption == 0)
-            //{
-            //    products = products.OrderBy(q => q.ProductName);
-            //    viewModel.LastSelectedTitleSortingOption = 0;
-            //}
 
-            //if (viewModel.SelectedTitleSortingOption == 1 || viewModel.SelectedTitleSortingOption == 1)
-            //{
-            //    products = products.OrderBy(q => q.ProductName);
-            //    viewModel.LastSelectedTitleSortingOption = 1;
-            //}
+            if (viewModel.SelectedSortingOption == "titleAsc")
+            {
+                products = products.OrderBy(q => q.ProductName);
+            }
 
-            //if (viewModel.SelectedTitleSortingOption == 2 || viewModel.LastSelectedTitleSortingOption == 2)
-            //{
-            //    products = products.OrderByDescending(q => q.ProductName);
-            //    viewModel.LastSelectedTitleSortingOption = 2;
-            //}
+            if (viewModel.SelectedSortingOption == "titleDesc")
+            {
+                products = products.OrderByDescending(q => q.ProductName);
+            }
+
+            //Datum
+            if (viewModel.SelectedSortingOption ==  "dateAsc")
+            {
+                products = products.OrderBy(q => q.FirstSalesDate);
+            }
+
+            if (viewModel.SelectedSortingOption == "dateDesc")
+            {
+                products = products.OrderByDescending(q => q.FirstSalesDate);
+            }
 
             // Pris
-            //if (viewModel.SelectedPriceSortingOption == 0 && viewModel.LastSelectedTitleSortingOption == 0)
-            //{
-            //    products = products.OrderBy(q => q.UnitPrice);
-            //    viewModel.LastSelectedPriceSortingOption = 0;
-            //}
-
-            if (viewModel.SelectedPriceSortingOption == 1 || viewModel.LastSelectedPriceSortingOption == 1)
+            if (viewModel.SelectedSortingOption == "priceAsc")
             {
                 products = products.OrderBy(q => q.UnitPrice);
-                viewModel.LastSelectedPriceSortingOption = 1;
             }
 
-            if (viewModel.SelectedPriceSortingOption == 2 || viewModel.LastSelectedPriceSortingOption == 2)
+            if (viewModel.SelectedSortingOption == "priceDesc")
             {
                 products = products.OrderByDescending(q => q.UnitPrice);
-                viewModel.LastSelectedTitleSortingOption = 2;
             }
+
+
+
 
             products = viewModel.pagingViewModel.SetPaging(viewModel.pagingViewModel.Page, viewModel.pagingViewModel.PageSize, products).Cast<AdminCategoryProductsViewModel.CategoryProductsViewModel>();
 

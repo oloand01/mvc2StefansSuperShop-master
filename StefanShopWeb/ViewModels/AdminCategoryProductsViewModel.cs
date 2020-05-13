@@ -14,13 +14,35 @@ namespace StefanShopWeb.ViewModels
         public PagingViewModel pagingViewModel { get; set; }
         public Products prods { get; set; }
         public int categoryId { get; set; }
-        public int SelectedTitleSortingOption { get; set; } = 0;
-        public int SelectedPriceSortingOption { get; set; } = 0;
-        public int LastSelectedTitleSortingOption { get; set; } = 0;
-        public int LastSelectedPriceSortingOption { get; set; } = 0;
-        //public string SortColumn { get; set; }
-        //public string SortOrder { get; set; }
 
+
+        public string SelectedTitleSortingOption { get; set; }
+        public string LastSelectedTitleSortingOption { get; set; }
+
+
+        public string SelectedPriceSortingOption { get; set; }
+        public string LastSelectedPriceSortingOption { get; set; }
+
+
+        public string SelectedSortingOption { get; set; }
+        public string LastSelectedDateSortingOption { get; set; }
+
+        public IEnumerable<SelectListItem> SortingOptions
+        {
+            get
+            {
+                return new[]
+                {
+                    new SelectListItem("Filtrera", ""),
+                    new SelectListItem("Senaste", "dateDesc"),
+                    new SelectListItem("Äldsta", "dateAsc"),
+                    new SelectListItem("Alfabetisk stigande", "titleAsc"),
+                    new SelectListItem("Alfabetisk fallande", "titleDesc"),
+                    new SelectListItem("Pris stigande", "priceAsc"),
+                    new SelectListItem("Pris fallande", "priceDesc")
+                };
+            }
+        }
         public IEnumerable<SelectListItem> TitleSortingOptions
         {
             get
@@ -28,12 +50,11 @@ namespace StefanShopWeb.ViewModels
                 return new[]
                 {
                     new SelectListItem("Titel", ""),
-                    new SelectListItem("Alfabetisk stigande", "1"),
-                    new SelectListItem("Alfabetisk fallande", "2")
+                    new SelectListItem("Alfabetisk stigande", "titleAsc"),
+                    new SelectListItem("Alfabetisk fallande", "titleDesc")
                 };
             }
         }
-
         public IEnumerable<SelectListItem> PriceSortingOptions
         {
             get
@@ -41,8 +62,8 @@ namespace StefanShopWeb.ViewModels
                 return new[]
                 {
                     new SelectListItem("Pris", ""),
-                    new SelectListItem("Pris stigande", "1"),
-                    new SelectListItem("Pris fallande", "2")
+                    new SelectListItem("Pris stigande", "priceAsc"),
+                    new SelectListItem("Pris fallande", "priceDesc")
                 };
             }
         }
@@ -72,6 +93,8 @@ namespace StefanShopWeb.ViewModels
             public short? UnitsInStock { get; set; }
             public short? UnitsOnOrder { get; set; }
             public bool IsWhished { get; set; }
+
+            public DateTime FirstSalesDate { get; set; }
         }
 
         //public class CategoryProductsListViewModel
