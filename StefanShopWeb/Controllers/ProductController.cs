@@ -114,7 +114,7 @@ namespace StefanShopWeb.Controllers
             product.UnitsOnOrder = model.ProductNew.UnitsOnOrder;
             product.ReorderLevel = model.ProductNew.ReorderLevel;
             product.Discontinued = model.ProductNew.Discontinued;
-            product.FirstSalesDate = model.Product.FirstSalesDate;
+            product.FirstSalesDate = model.ProductNew.FirstSalesDate;
 
 
             dbContext.Products.Add(product);
