@@ -44,6 +44,7 @@ namespace StefanShopWeb
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             }) ;
+            services.AddTransient<IWishlistService, WishlistService>();
             services.AddTransient<INewsletterServices, NewsletterServices>();
             services.AddControllersWithViews();
             services.AddRazorPages();

@@ -1,82 +1,97 @@
 ﻿@model StefanShopWeb.ViewModels.WishlistViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "GetWishlist";
 }
 <body>
-
-<div id="breadcrumb" class="section">
-    <div class="container" style="width: 100%">
-        <div class="row" style="width: 100%">
-            <div class="col-md-12" style="width: 100%">
-                <ul class="breadcrumb-tree">
-                    <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li class="active">Wishlist(@Model.WishProducts.Count())</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="section" style=" width: 100%">
-    <div class="container" style="width: 100%">
-        <div class="row" style="width: 100%">
-            <div id="store" class="col-md-12" style="width: 100%">
-                <div class="store-filter clearfix">
-                    <div class="store-sort">
-                        <label>
-                            Show:
-                            <select class="input-select">
-                                <option value="0">20</option>
-                                <option value="1">50</option>
-                            </select>
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    @foreach (var prod in Model.WishProducts)
-                    {
-                        <div class="col-md-3 col-xs-6" style="margin-right :15px">
-                            <div class="product">
-                                <div class="product-img">
-                                    <img src="~/img/product02.png" />
-                                </div>
-                                <div class="product-body">
-                                    <p class="product-category">Category</p>
-                                    <h3 class="product-name"><a href="#">@prod.Product.ProductName</a></h3>
-                                    <h4 class="product-price">@prod.Product.UnitPrice </h4>
-                                    <div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="product-btns">
-                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                    </div>
-                                </div>
-                                <div class="add-to-cart">
-                                    <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-                <div class="store-filter clearfix">
-                    <span class="store-qty">Showing @Model.WishProducts.Count() products</span>
-                    <ul class="store-pagination">
-                        <li class="active">1</li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+    <div id="breadcrumb" class="section">
+        <div class="container" style="width: 100%">
+            <div class="row" style="width: 100%">
+                <div class="col-md-12" style="width: 100%">
+                    <ul class="breadcrumb-tree">
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li class="active">Wishlist</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="section" style=" width: 100%">
+        <div class="container" style="width: 100%">
+            <div class="row" style="width: 100%">
+                <div id="store" class="col-md-12" style="width: 100%">
+                    <div class="store-filter clearfix">
+                        <div class="store-sort">
+                            <label>
+                                Shows 20 products per page
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row ">
+                            @foreach (var prod in Model.WishProducts)
+                            {
+                                <div class="col-md-3 col-xs-6" style="margin-right :15px; height:481px">
+                                    <div class="product">
+                                        <div class="product-img">
+                                            <img src=@Url.Content($"~/img/product0{(prod.ProductId%10)}.png") />
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-category">Category</p>
+                                            @if (prod.Product.ProductName.IndexOf(" ") < 0)
+                                            {
+                                                <br />
+                                                <h3 class="product-name">
+                                                    <a href="#">
+                                                        @prod.Product.ProductName
+                                                    </a>
+                                                </h3>
+                                            }
+                                            else
+                                            {
+                                                <h3 class="product-name">
+                                                    <a href="#">
+                                                        @prod.Product.ProductName.Substring(0, prod.Product.ProductName.LastIndexOf(" "))
+                                                    </a>
+                                                </h3>
+                                                <h3 class="product-name">
+                                                    <a href="#">
+                                                        @prod.Product.ProductName.Substring(prod.Product.ProductName.LastIndexOf(" ") + 1)
+                                                    </a>
+                                                </h3>
+                                            }
+                                            <h5 class="product-price">@String.Format("{0:C}", prod.Product.UnitPrice) </h5>
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="product-btns">
+                                                @await Component.InvokeAsync("Heart", new { userId = UserManager.GetUserId(User), productId = prod.ProductId })
+                                            </div>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="store-filter clearfix">
+                        <span class="store-qty">Showing @Model.WishProducts.Count() products</span>
+                        <div id="WishlistPage">
+                            <partial name="_WishProductsPagerPartial" for="@Model" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 

@@ -10,6 +10,7 @@ namespace StefanShopWeb.ViewModels
     public class WishlistViewModel
     {
         public List<Wishinglist> WishProducts { get; set; } = new List<Wishinglist>();
+        public PagingViewModel pagingViewModel { get; set; } = new PagingViewModel();
 
     }
 }

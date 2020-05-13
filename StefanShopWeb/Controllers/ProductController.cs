@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using StefanShopWeb.Data;
 using StefanShopWeb.Models;
+using StefanShopWeb.Services;
 using StefanShopWeb.ViewModels;
 
 namespace StefanShopWeb.Controllers
@@ -18,12 +19,13 @@ namespace StefanShopWeb.Controllers
 
         private readonly ApplicationDbContext dbContext;
 
-
+        private readonly IWishlistService _wishlistService;
         private readonly UserManager<IdentityUser> _userManager;
-        public ProductController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public ProductController(ApplicationDbContext context, UserManager<IdentityUser> userManager, IWishlistService wishlistService)
         {
             dbContext = context;
             _userManager = userManager;
+            _wishlistService = wishlistService;
         }
 
         public IActionResult Index()
@@ -224,10 +226,8 @@ namespace StefanShopWeb.Controllers
             return viewModel;
         }
         [Authorize]
-        public async Task<IActionResult> GetWishlist( )
+        public async Task<IActionResult> GetWishlist(WishlistViewModel viewModel, int? Page, int? PageSize)
         {
-            var model = new WishlistViewModel();
-
             if (User.Identity.Name == null)
             {
                 return View("~/Identity/Account/Login.cshtml");
@@ -238,39 +238,32 @@ namespace StefanShopWeb.Controllers
                 return Challenge();
             }
 
-            model.WishProducts = dbContext.Wishinglist
-                .Where(u => u.UserId == user.Id)
-                .Where(p => p.Product.ProductId==p.ProductId)
-                .Select(r => new Wishinglist 
-                { 
-                    Product=r.Product,
-                    ProductId=r.ProductId,
-                    UserId = r.UserId
-                })
-                .ToList();
+            viewModel = _wishlistService.FetchWishlistItems(viewModel, Page, PageSize, user);
 
-            if (model.WishProducts.Count() == 0)
+            if (viewModel.WishProducts.Count() == 0)
             {
-                 return RedirectToAction("EmptyWishlist");
+                return RedirectToAction("EmptyWishlist");
             }
 
-            return View(model);
+            return View(viewModel);
         }
+
         [Authorize]
         public IActionResult EmptyWishlist()
         {
             return View();
         }
+
         public async Task<IActionResult> AddToWishlist(int wishlistid, int productid)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (wishlistid == 0)
-            {
-                var wish = new Wishinglist { ProductId = productid, UserId = user.Id };
-                await dbContext.Wishinglist.AddAsync(wish);
-                dbContext.SaveChanges();
-                return ViewComponent("WishIcon", new { userId = user.Id});
-            }
+
+            if (!await dbContext.Wishinglist.AnyAsync(w => w.ProductId == productid && w.UserId == _userManager.GetUserId(HttpContext.User)))
+                {
+                    var wish = new Wishinglist { ProductId = productid, UserId = user.Id };
+                    await dbContext.Wishinglist.AddAsync(wish);
+                    dbContext.SaveChanges();
+                }
             else
             {
                 var wish = dbContext.Wishinglist.FirstOrDefault(w => w.ProductId == productid && w.UserId == user.Id);
@@ -278,7 +271,7 @@ namespace StefanShopWeb.Controllers
                 dbContext.SaveChanges();
             }         
             //
-            return View("HeartViewComponent");
+            return ViewComponent("WishIcon", new { userId = user.Id });
         }
 
     }

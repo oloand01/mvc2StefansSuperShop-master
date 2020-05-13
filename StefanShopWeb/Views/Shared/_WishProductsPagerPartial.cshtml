@@ -1,0 +1,30 @@
+﻿@model StefanShopWeb.ViewModels.WishlistViewModel
+
+@{
+    int p = 1;
+}
+
+<nav aria-label="Page navigation example">
+    <ul class="store-pagination">
+        @foreach (var page in Model.pagingViewModel.GetPages)
+        {
+            if (page == "...")
+            {
+                <li class="disabled">...</li>
+            }
+            else
+            {
+                p = Convert.ToInt32(page);
+
+                <li class="@(Model.pagingViewModel.CurrentPage == p ? "active" : "")">
+                    <a asp-controller="Product"
+                       asp-action="GetWishlist"
+                       asp-route-Page="@p"
+                       asp-route-PageSize="@Model.pagingViewModel.PageSize">
+                        @p
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+</nav>
