@@ -39,7 +39,7 @@
                                             <img src=@Url.Content($"~/img/product0{(prod.ProductId%10)}.png") />
                                         </div>
                                         <div class="product-body">
-                                            <p class="product-category">Category</p>
+                                            @*<p class="product-category">Category</p>*@
                                             @if (prod.Product.ProductName.IndexOf(" ") < 0)
                                             {
                                                 <br />
