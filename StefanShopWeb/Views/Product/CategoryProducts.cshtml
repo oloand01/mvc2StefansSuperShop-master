@@ -3,124 +3,84 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-@*@{
-    ViewData["Title"] = "CategoryProducts";
 
-    string GetClickSortOrder(string columnName)
-    {
-        if (columnName == Model.SortColumn)
+
+    <div class="text-center">
+        <h1>@Model.cats.CategoryName</h1>
+        @for (int i = 0; i < Model.prodList.Count(); i += 4)
         {
-            string o = "asc";
-            if (Model.SortOrder == "asc")
-            {
-                o = "desc";
-            }
-            return o;
-        }
-        else
-        {
-            return "asc";
-        }
-    }
+            <div class="row text-center">
+                <div class="products-tabs">
+                    <div class="container-fluid mt-4 text-center" style="position:relative;left:150px;">
 
-    void RenderSortIcon(string columnName)
-    {
-        if (columnName != Model.SortColumn)
-        {
-            return;
-        }
-        <i class="fa fa-fw fa-sort-@Model.SortOrder"></i>
-    }
-}*@
+                        @foreach (var item in Model.prodList.Skip(i).Take(4))
+                        {
+                            <div class="product col-sm-2 col-md-offset-1" style="margin-right: 2rem;">
+                                <div class="product-img form-group">
+                                    @if (Model.cats.CategoryName == "Beverages")
+                                    {
+                                        <img src="~/ProductImages/beverages4_83af.jpg" alt="">
+                                    }
+                                    else if (Model.cats.CategoryName == "Condiments")
+                                    {
+                                        <img src="~/ProductImages/condiments.jpg" alt="">
+                                    }
+                                    else if (Model.cats.CategoryName == "Confections")
+                                    {
+                                        <img src="~/ProductImages/confectionsfinal.jpg" alt="">
+                                    }
+                                    else if (Model.cats.CategoryName == "Grains/Cereals")
+                                    {
+                                        <img src="~/ProductImages/grainproducts.jpg" alt="">
+                                    }
+                                    else if (Model.cats.CategoryName == "Meat/Poultry")
+                                    {
+                                        <img src="~/ProductImages/meatproducts.png" alt="">
+                                    }
+                                    else if (Model.cats.CategoryName == "Produce")
+                                    {
+                                        <img src="~/ProductImages/produce.jpg" alt="">
+                                    }
+                                    else if (Model.cats.CategoryName == "Seafood")
+                                    {
+                                        <img src="~/ProductImages/seafoodproducts.jpg" alt="">
+                                    }
 
-<div class="text-center">
-    <h1>@Model.cats.CategoryName</h1>
+                                    <div class="product-label">
 
-    <div class="row text-center">
-        <div class="products-tabs">
-            <div class="container-fluid mt-4">
+                                    </div>
+                                </div>
+                                <div class="product-body">
+                                    <p class="product-category">@Model.cats.CategoryName</p>
 
-                @*<a href="#" onclick="window.location.href=setSort(window.location.href, 'Name', '@GetClickSortOrder("Name")')">Id @{ RenderSortIcon("Name");}</a>
-                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Price', '@GetClickSortOrder("Price")')">Title @{ RenderSortIcon("Price"); }</a>
-                <a href="#" onclick="window.location.href=setSort(window.location.href, 'Date', '@GetClickSortOrder("Date")')">Released @{ RenderSortIcon("Date"); }</a>*@
 
-                <!-- product -->
-                @foreach (var item in Model.prodList)
-                {
-                    <div class="product col-sm-2" style="margin-right: .25rem;">
-                        <div class="product-img">
-                            @if (Model.cats.CategoryName == "Beverages")
-                            {
-                                <img src="~/ProductImages/beverages4_83af.jpg" alt="">
-                            }
-                            else if (Model.cats.CategoryName == "Condiments")
-                            {
-                                <img src="~/ProductImages/condiments.jpg" alt="">
-                            }
-                            else if (Model.cats.CategoryName == "Confections")
-                            {
-                                <img src="~/ProductImages/confectionsfinal.jpg" alt="">
-                            }
-                            else if (Model.cats.CategoryName == "Grains/Cereals")
-                            {
-                                <img src="~/ProductImages/grainproducts.jpg" alt="">
-                            }
-                            else if (Model.cats.CategoryName == "Meat/Poultry")
-                            {
-                                <img src="~/ProductImages/meatproducts.png" alt="">
-                            }
-                            else if (Model.cats.CategoryName == "Produce")
-                            {
-                                <img src="~/ProductImages/produce.jpg" alt="">
-                            }
-                            else if (Model.cats.CategoryName == "Seafood")
-                            {
-                                <img src="~/ProductImages/seafoodproducts.jpg" alt="">
-                            }
-                            @*<img src="~/img/drinks.jpg" alt="">*@
+                                    <h3 class="product-name"><a href="#">@item.ProductName</a></h3>
+                                    <h4 class="product-price">@String.Format("{0:C}", item.UnitPrice)</h4>
 
-                            <div class="product-label">
+                                    <div class="product-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-o"></i>
+                                    </div>
 
+                                    <div class="product-details">
+                                        <p>Units in stock: @item.UnitsInStock</p>
+                                        <p>Units on order: @item.UnitsOnOrder</p>
+                                    </div>
+
+                                    @await Component.InvokeAsync("Heart", new { userId = UserManager.GetUserId(User), productId = item.ProductId })
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="product-body">
-                            <p class="product-category">@Model.cats.CategoryName</p>
-
-
-                            <h3 class="product-name"><a href="#">@item.ProductName</a></h3>
-                            <h4 class="product-price">@String.Format("{0:C}", item.UnitPrice)</h4>
-
-                            <div class="product-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-
-                            @*-------*@
-
-                            <div class="product-details">
-                                <p>Units in stock: @item.UnitsInStock</p>
-                                <p>Units on order: @item.UnitsOnOrder</p>
-                            </div>
-
-                            @await Component.InvokeAsync("Heart", new { userId = UserManager.GetUserId(User), productId = item.ProductId })
-                            @*--------*@
-
-                        </div>
-                        @*<div class="add-to-cart">
-                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                            </div>*@
+                        }
                     </div>
-                }
-                <!-- /product -->
-
+                </div>
             </div>
+            <br />
+        }
+        <div>
+            <a href="##" role="button" class="btn btn-default" onClick="history.go(-1); return false;"> Return to category overview</a>
         </div>
     </div>
-    <br />
-    <div>
-        <a href="##" role="button" class="btn btn-default" onClick="history.go(-1); return false;"> Return to category overview</a>
-    </div>
-</div>

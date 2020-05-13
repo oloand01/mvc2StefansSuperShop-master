@@ -26,7 +26,7 @@ namespace StefanShopWeb.Models
         public byte[] Picture { get; set; }
 
         [Column(TypeName = "nvarchar(50)")]
-        [Required(ErrorMessage = "Please select a file to upload")]
+        //[Required(ErrorMessage = "Please select a file to upload")]
         public string PictureName { get; set; }
 
         [InverseProperty("Category")]

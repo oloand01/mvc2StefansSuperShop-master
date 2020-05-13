@@ -54,7 +54,7 @@ namespace StefanShopWeb.ViewModels
             }
         }
 
-        public int PageSize { get; set; } = 5;
+        public int PageSize { get; set; } = 4;
         public int Page { get; set; } = 1;
         public IEnumerable<SelectListItem> PageSizeOptions
         {
@@ -62,7 +62,7 @@ namespace StefanShopWeb.ViewModels
             {
                 return new[]
                 {
-                    new SelectListItem("Visa 5", "5"),
+                    new SelectListItem("Visa 4", "4"),
                     new SelectListItem("Visa 10", "10"),
                     new SelectListItem("Visa 15", "15")
                 };
